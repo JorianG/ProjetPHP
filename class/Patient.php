@@ -2,7 +2,7 @@
 
 namespace class;
 
-class Medecin
+class Patient
 {
 
 }
