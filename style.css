@@ -1,0 +1,38 @@
+
+body{
+    --bs-primary: #04B1D9 !important;
+    --bs-dark: #048ABF !important;
+    --light-bg : #CBE6F8 !important;
+    background-color: var(--light-bg) !important;
+}
+
+
+.navbar{
+    height: 80px ;
+    background-color: var(--bs-dark) !important;
+}
+
+.nom_docteur{
+    color: var(--White, #FFF);
+    padding-right:10px !important;
+    font-family: Lexend;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 200;
+    line-height: normal;
+    color: white !important ;
+    
+}
+
+.container-profil{
+    margin-right: 70px !important;
+}
+
+.titre-page{
+    color: var(--White, #FFF) !important;
+    font-family: Lexend;
+    font-size: 40px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+}
