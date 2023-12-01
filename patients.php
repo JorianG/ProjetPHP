@@ -40,8 +40,6 @@
                 <div class=" container d-flex bg-danger justify-content-evenly" style="margin-top: 18px;">
                 
     
-                <div class="container">
-    
                     <table class="table">
                             <thead>
                                 <tr>
@@ -58,7 +56,8 @@
 
                             <?php
                                 $result =[];
-                                require("PDO.php");
+                                include("PDO.php");
+                                $conn = getInstance();
                                 $sql = "SELECT * FROM Patient";
                                 $sth = $conn->query($sql);
                                 $result = $sth->fetchAll(\PDO::FETCH_ASSOC);
@@ -97,7 +96,7 @@
                             ?>
                         </tbody>
                         </table>
-                    </div>
+
                 </div>
                 </body>
                 </html>
