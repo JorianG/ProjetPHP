@@ -7,19 +7,19 @@ use DateTime;
 class Patient extends Personne
 {
     private int $numeroDeSecu;
-    private String $addresse;
+    private String $adresse;
     private DateTime $dateDeNaisance;
     private string $lieuDeNaissance;
 
     private Medecin $medecinRefferent;
 
 
-    public function __construct(int $numeroDeSecu,string $nom, string $prenom, Civilite $civilite, String $addresse,
+    public function __construct(int $numeroDeSecu,string $nom, string $prenom, Civilite $civilite, String $adresse,
                                 DateTime $dateDeNaisance, string $lieuDeNaissance, Medecin $medecinRefferent=null)
     {
         parent::__construct($nom, $prenom, $civilite);
         $this->numeroDeSecu = $numeroDeSecu;
-        $this->addresse = $addresse;
+        $this->adresse = $adresse;
         $this->dateDeNaisance = $dateDeNaisance;
         $this->lieuDeNaissance = $lieuDeNaissance;
         if ($medecinRefferent != null) {
@@ -38,9 +38,9 @@ class Patient extends Personne
     /**
      * @return String
      */
-    public function getAddresse(): String
+    public function getAdresse(): String
     {
-        return $this->addresse;
+        return $this->adresse;
     }
 
     /**

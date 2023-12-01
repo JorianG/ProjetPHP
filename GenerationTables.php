@@ -17,7 +17,6 @@
 
         $sql = "CREATE TABLE Medecin (
             Id_Personne INT NOT NULL,
-            Specialite VARCHAR(50) NOT NULL,
             PRIMARY KEY(Id_Personne),
             FOREIGN KEY(Id_Personne) REFERENCES Personne(Id_Personne)
         );";
@@ -66,6 +65,20 @@
         $sql = "INSERT INTO Personne VALUES ('".$patient.getNom()."', '".$patient.getPrenom()."', '".$patient.getCivilite().getName()."');";
         $db.exec($sql);
         $sql = "select max(id_personne) from Personne";
+        $id= $db.exec($sql);
+        $sql = "INSERT INTO Patient VALUES (".$id.", '".$patient.getNumeroDeSecu()."', '".$patient.getAdresse()."', ".$patient.getDateDeNaisance().", '".$patient.getLieuDeNaissance()."';)";
+        $db.exec($sql);
+    }
+
+    function insererMedecin(\class\Medecin $medecin) {
+        $db = connexion();
+
+        $sql = "INSERT INTO Personne VALUES ('".$medecin.getNom()."', '".$medecin.getPrenom()."', '".$medecin.getCivilite().getName()."');";
+        $db.exec($sql);
+        $sql = "select max(id_personne) from Personne";
+        $id= $db.exec($sql);
+        $sql = "INSERT INTO Medecin VALUES (".$id.";)";
+        $db.exec($sql);
     }
 
 ?>
