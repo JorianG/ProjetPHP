@@ -22,7 +22,7 @@ class Patient extends Personne
         $this->addresse = $addresse;
         $this->dateDeNaisance = $dateDeNaisance;
         $this->lieuDeNaissance = $lieuDeNaissance;
-        if ($this->medecinRefferent == null) {
+        if ($medecinRefferent != null) {
             $this->medecinRefferent = $medecinRefferent;
         }
     }
