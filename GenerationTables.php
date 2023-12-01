@@ -59,6 +59,15 @@
         echo "<script>console.log('Tables crées');</script>";
     }
     creerTables();
+
+    function insererPatient(\class\Patient $patient) {
+        $db = connexion();
+
+        $sql = "INSERT INTO Personne VALUES ('".$patient.getNom()."', '".$patient.getPrenom()."', '".$patient.getCivilite().getName()."');";
+        $db.exec($sql);
+        $sql = "select max(id_personne) from Personne";
+    }
+
 ?>
 
 
