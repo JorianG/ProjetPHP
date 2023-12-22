@@ -81,7 +81,6 @@ class Personne
     public function setNom(string $nom): void
     {
         $this->nom = $nom;
-        $this->db->exec("UPDATE Personne SET Nom = '".$this->getNom()."' WHERE id = ". $this->getIdPersonne());
     }
 
     /**
@@ -90,7 +89,6 @@ class Personne
     public function setPrenom(string $prenom): void
     {
         $this->prenom = $prenom;
-        $this->db->exec("UPDATE Personne SET Prenom = '".$this->getPrenom()."' WHERE id = ". $this->getIdPersonne());
     }
 
     /**
@@ -99,27 +97,5 @@ class Personne
     public function setCivilite(Civilite $civilite): void
     {
         $this->civilite = $civilite;
-        $this->db->exec("UPDATE Personne SET Civilite = '".$this->getCivilite()->getName()."' WHERE id = ". $this->getIdPersonne());
-    }
-
-    public static function insert(Personne $p)
-    {
-        (new PersonneDAO())->insert($p);
-        $p->setIdSql();
-    }
-
-    public static function delete(Personne $p)
-    {
-        (new PersonneDAO())->delete($p);
-    }
-
-    public static function getById(int $id)
-    {
-        return Personne::newFromRow((new PersonneDAO())->selectById($id));
-    }
-
-    public static function getAll()
-    {
-        return Personne::newFromArray((new PersonneDAO())->selectAll());
     }
 }
