@@ -1,5 +1,8 @@
 <?php
-    require 'ConnexionDB.php';
+
+use use class\Medecin;use class\Patient;
+
+require 'ConnexionDB.php';
     function creerTables() {
         $db = connexion();
 
@@ -59,26 +62,35 @@
     }
     creerTables();
 
-    function insererPatient(\class\Patient $patient) {
+    function insererPatient(Patient $patient): void
+    {
         $db = connexion();
 
-        $sql = "INSERT INTO Personne VALUES ('".$patient.getNom()."', '".$patient.getPrenom()."', '".$patient.getCivilite().getName()."');";
+        $sql = "INSERT INTO Personne VALUES ('".$patient->getNom()."', '".$patient->getPrenom()."', '".$patient->getCivilite()->getName()."');";
         $db.exec($sql);
         $sql = "select max(id_personne) from Personne";
         $id= $db.exec($sql);
-        $sql = "INSERT INTO Patient VALUES (".$id.", '".$patient.getNumeroDeSecu()."', '".$patient.getAdresse()."', ".$patient.getDateDeNaisance().", '".$patient.getLieuDeNaissance()."';)";
+        $sql = "INSERT INTO Patient VALUES (".$id.", '".$patient->getNumeroDeSecu()."', '".$patient->getAdresse()."', ".$patient->getDateDeNaisance()->format("d/m/Y H:i").", '".$patient->getLieuDeNaissance()."';)";
         $db.exec($sql);
     }
 
-    function insererMedecin(\class\Medecin $medecin) {
+    function insererMedecin(Medecin $medecin): void
+    {
         $db = connexion();
 
-        $sql = "INSERT INTO Personne VALUES ('".$medecin.getNom()."', '".$medecin.getPrenom()."', '".$medecin.getCivilite().getName()."');";
+        $sql = "INSERT INTO Personne VALUES ('".$medecin->getNom()."', '".$medecin->getPrenom()."', '".$medecin->getCivilite()->getName()."');";
         $db.exec($sql);
         $sql = "select max(id_personne) from Personne";
         $id= $db.exec($sql);
         $sql = "INSERT INTO Medecin VALUES (".$id.";)";
         $db.exec($sql);
+    }
+
+    function insererRDV(RDV $rdv): void
+    {
+        $db = connexion();
+
+        $sql = "INSERT INTO RDV VALUES (".($rdv->getMedecin()->getId()).", ".$rdv->getPatient()->getId().", '".$rdv->getDateHeure()."', ".$rdv->getDureeEnMinute().")";
     }
 
 ?>
