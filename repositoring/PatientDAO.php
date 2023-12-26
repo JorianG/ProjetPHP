@@ -3,12 +3,12 @@
 namespace repositoring;
 
 use class\Patient;
-use class\Personne;
+
 use PDO;
 include_once $_SERVER['DOCUMENT_ROOT']."/ProjetPHP/class/Patient.php";
 include_once $_SERVER['DOCUMENT_ROOT']."/ProjetPHP/PDO.php";
 
-class PersonneDAO
+class PatientDAO
 {
     private PDO $db;
 
@@ -25,9 +25,9 @@ class PersonneDAO
         $this->db->exec($sql);
     }
 
-    public function update(Patient $p, int $id_personne)
+    public function update(Patient $p)
     {
-        $sql = "UPDATE patient SET Num_Secu = '".$p->getNumeroDeSecu()."', Adresse = '".$p->getAdresse()."', DateNaissance = '".$p->getDateDeNaisance()."', LieuDeNaissance = '".$p->getLieuDeNaissance()."', Id_Personne_Id_medecinRef = '".$p->getMedecinRefferent()."' WHERE Id_Personne = ".$id_personne.";";
+        $sql = "UPDATE patient SET Num_Secu = '".$p->getNumeroDeSecu()."', Adresse = '".$p->getAdresse()."', DateNaissance = '".$p->getDateDeNaisance()."', LieuDeNaissance = '".$p->getLieuDeNaissance()."', Id_Personne_Id_medecinRef = '".$p->getMedecinRefferent()."' WHERE Id_Personne = ".$p->getIdPersonne().";";
         $this->db->exec($sql);
     }
 
@@ -57,5 +57,5 @@ class PersonneDAO
         $result = $this->db->query($sql);
         return $result->fetchAll();
     }
-    
+
 }
