@@ -2,17 +2,71 @@
 
 <html>
 <?php
-    include 'header.php';
+    include './/header.php';
     if (function_exists('customPageHeader')){
-      customPageHeader();
+      customPageHeader('Liste des patients');
     }?>
                 
+
+            
+
+
+
+
                 <div class=" container " style="margin-top: 18px;">
-                <form action="AjouterPatient.php">
-                    <button class="btn btn-primary mb-3" href="http://localhost/projetPHP/AjouterPatient.php">Ajouter patient</button>
-                    
+                <h1 class="title-2">Aouter un patient</h1>
+
+                <form class=""method="post" action="./AjouterPatient.php" >
+                    <div class="row">
+                        <div class="col-1">
+                            <label class="floatingInput"for="civ">Civilité:</label>
+                            <select class="form-control from-select" name="civ" >
+                                <option value="MR">Mr</option>
+                                <option value="MME">Mme</option>
+                                <option value="MLLE">Mlle</option>  
+                            </select>
+                        </div>
+
+                        <div class="col-5">
+                            <label class="floatingInput"for="prenom">Prénom:</label>
+                            <input class="form-control" type="text" name="prenom"  id="floatingInput" placeholder="Jean" required>
+            
+                        </div>
+
+                        <div class="col">
+                            <label for="nom">Nom:</label>
+                            <input class="form-control" type="text" name="nom" placeholder="Dupont"  required>
+
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-8">
+                        <label for="adresse">Adresse:</label>
+                        <input class="form-control" type="text" name="adresse" placeholder="1 rue du Pont 31000 Toulouse" required>
+                        </div>
+                        <div class="col">
+                        <label for="numSecu">Num Secu:</label>
+                        <input class="form-control" type="text" name="numSecu"  maxlength="13" placeholder="1234567891234" required>
+                        </div>  
+                        </div>
+                        <div class="row">
+                            <div class="col-2">
+                            <label for="dateN">Date de Naissance:</label>
+                            <input class="form-control" type="Date" name="dateN" required>
+                            </div>
+                            <div class="col">
+                            <label for="lieuN">Lieu de Naissance:</label>
+                            <input class="form-control" type="text" name="lieuN"  required>
+                            </div>
+                        </div>
+                        <input class=" mt-2 btn btn-outline-primary btn-lg" type="submit" name="submit" value="Ajouter">
                     </form>
-                    <table class="table">
+
+                    <hr class="hr hr-blurry" />
+                    <br/>
+                    
+                    <table class="table  table-condensed table-hover">
                             <thead>
                                 <tr>
                                 <th scope="col">Civ</th>
@@ -20,6 +74,7 @@
                                 <th scope="col">Prénom</th>
                                 <th scope="col">Adresse</th>
                                 <th scope="col">Date de naissance</th>
+                                <th scope="col"></th>
                                 <th scope="col"></th>
                                 </tr>
                             </thead>
@@ -48,16 +103,25 @@
                                         $html .= '<td >'.$row['Adresse'].'</td>';
                                         $html .= '<td >'.$row['DateNaissance'].'</td>';
                                         $html .= '
-                                        <td class="row">
+                                        <td >
+                                            <form action="AJOUTER PAGE PROFIL CLIENT" method="post">
+                                                <input type="hidden" name="btn"  value="'.$row['Id_Personne'].'"></input>
+                                                <button class="btn btn-primary p-2"type="submit">
+                                                    <i class="bi bi-person-bounding-box"></i>
+                                                </button>
+
+                                            </form>
+                                        </td>';
+                                        $html .= '
+                                        <td >
                                             <form action="supr.php" method="post">
                                                 <input type="hidden" name="btn"  value="'.$row['Id_Personne'].'"></input>
-                                                <button class="btn btn-secondary"type="submit">
+                                                <button class="btn btn-secondary p-2"type="submit">
                                                     <i class="bi bi-trash3"></i>
                                                 </button>
 
 
                                             </form>
-                                            
                                         </td>';
                                         $html .= '</tr>';
                                         echo $html;

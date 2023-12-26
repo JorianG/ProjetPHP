@@ -4,6 +4,8 @@ namespace service;
 
 use class\Personne;
 use repositoring\PersonneDAO;
+include_once $_SERVER['DOCUMENT_ROOT']."/ProjetPHP/class/Personne.php";
+include_once $_SERVER['DOCUMENT_ROOT']."/ProjetPHP/repositoring/PersonneDAO.php";
 
 class PersonneService
 {

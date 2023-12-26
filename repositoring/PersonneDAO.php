@@ -4,6 +4,8 @@ namespace repositoring;
 
 use class\Personne;
 use PDO;
+include_once $_SERVER['DOCUMENT_ROOT']."/ProjetPHP/class/Personne.php";
+include_once $_SERVER['DOCUMENT_ROOT']."/ProjetPHP/PDO.php";
 
 class PersonneDAO
 {
@@ -11,12 +13,14 @@ class PersonneDAO
 
     public function __construct()
     {
-        $this->db = connexion();
+        $this->db = getInstance();
     }
 
     public function insert(Personne $p)
     {
-        $sql = "INSERT INTO Personnne VALUES ('".$p->getNom()."', '".$p->getPrenom()."', '".$p->getCivilite()->getName()."');";
+        //TODO : SQL Error
+        //TODO : SQL Injection protection please
+        $sql = "INSERT INTO Personne (Nom, Prenom, Civilite) VALUES ('".$p->getNom()."', '".$p->getPrenom()."', '".$p->getCivilite()->getName()."');";
         $this->db->exec($sql);
     }
 

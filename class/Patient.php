@@ -80,7 +80,7 @@ class Patient extends Personne
      */
     public function setAddresse(String $addresse): void
     {
-        $this->addresse = $addresse;
+        $this->adresse = $addresse;
     }
 
     /**

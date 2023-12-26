@@ -1,6 +1,7 @@
 <?php
 
-use use class\Medecin;use class\Patient;
+use class\Medecin;
+use class\Patient;
 
 require 'ConnexionDB.php';
     function creerTables() {

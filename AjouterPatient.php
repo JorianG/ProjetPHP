@@ -1,18 +1,13 @@
-<!DOCTYPE html>
-
-<html>
-<?php
-    include 'header.php';
-    if (function_exists('customPageHeader')){
-      customPageHeader();
-    }?>
-                <div class="container mt-5">
-                 <h1 >Ajouter une Patient</h1>
 
 <?php
 if (isset($_POST['submit'])) {
-        
+    // Remove the unnecessary "use class\Personne;" statement
+    
     require("PDO.php");
+    include $_SERVER['DOCUMENT_ROOT']."/ProjetPHP/class/Personne.php";    
+    include $_SERVER['DOCUMENT_ROOT']."/ProjetPHP/class/Patient.php";
+    include $_SERVER['DOCUMENT_ROOT']."/ProjetPHP/class/Civilite.php";
+    include $_SERVER['DOCUMENT_ROOT']."/ProjetPHP/service/PersonneService.php";     
 
     function addPatient(){
         $conn = getInstance();
@@ -28,17 +23,32 @@ if (isset($_POST['submit'])) {
 
         // Insert the patient into the database
         //Insert personne
-        $query = "INSERT INTO `personne`(`Nom`, `Prenom`, `Civilite`) VALUES ($nom, $prenom, $civ)";
-        try {
-            $conn->query($query);
-        } catch (PDOException $e) {
-            echo "Erreur de requête : " . $e->getMessage();
-        }
 
-        //Insert patient
-        $query = "INSERT INTO `patient`(`Id_Personne`, `Num_secu`, `Adresse`, `DateNaissance`, `LieuDeNaissance`, `Id_Personne_Id_medeciRef`) VALUES ((SELECT Id_Personne FROM personne WHERE Nom = $nom AND Prenom = $prenom),$numSecu, $adresse, $dateN, $lieuN, null)";
+
+        $personneToAdd = new class\Personne($nom, $prenom, class\Civilite::fromString($civ) );
+        $personneService = new service\PersonneService($personneToAdd);
+        $personneService->insert();
+        
+
+        // $query = "INSERT INTO `personne`(`Nom`, `Prenom`, `Civilite`) VALUES (?, ?, ?)";
+        // try {
+        //     $stmt = $conn->prepare($query);
+        //     $stmt->execute([$nom, $prenom, $civ]);
+        //     echo"<script>console.log('Patient ajouté');</script>";
+        // } catch (PDOException $e) {
+        //     echo "Erreur de requête : " . $e->getMessage();
+        // }
+
+        //Insert patient*
+        
+
+
+        //TODO USE DAO WAITING FOR DAO
+        $query = "INSERT INTO `patient`(`Id_Personne`, `Num_secu`, `Adresse`, `DateNaissance`, `LieuDeNaissance`, `Id_Personne_Id_medeciRef`) VALUES ((SELECT Id_Personne FROM personne WHERE Nom = ? AND Prenom = ?), ?, ?, ?, ?, 1)";
         try {
-            $conn->query($query);
+            $stmt = $conn->prepare($query);
+            $stmt->execute([$nom, $prenom, $numSecu, $adresse, $dateN, $lieuN]);
+            echo"<script>console.log('Patient ajouté');</script>";
         } catch (PDOException $e) {
             echo "Erreur de requête : " . $e->getMessage();
         }
@@ -48,49 +58,15 @@ if (isset($_POST['submit'])) {
 
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        echo"<script>console.log('Patient ajouté');</script>";
+       
         addPatient();
-    }
+
 
     header('Location: http://localhost/ProjetPHP/patients.php');
+        
+  
+}
 }
 ?>
 
-                <form class=""method="post" action="" >
 
-                        <label class="floatingInput"for="civ">Civilité:</label>
-                        <select class="form-control" name="civ" >
-                            <option value="M">M</option>
-                            <option value="Mme">Mme</option>
-                            <option value="Mlle">Mlle</option>
-                        </select>
-
-                        <label class="floatingInput"for="prenom">Prénom:</label>
-                        <input class="form-control" type="text" name="prenom"  id="floatingInput" required>
-
-                        <label for="nom">Nom:</label>
-                        <input class="form-control" type="text" name="nom"  required>
-
-                        <label for="adresse">Adresse:</label>
-                        <input class="form-control" type="text" name="adresse"  required>
-
-                        <label for="numSecu">Num Secu:</label>
-                        <input class="form-control" type="text" name="numSecu"  maxlength="13" required>
-
-                        <label for="dateN">Date de Naissance:</label>
-                        <input class="form-control" type="Date" name="dateN" required>
-
-                        <label for="lieuN">Lieu de Naissance:</label>
-                        <input class="form-control" type="text" name="lieuN"  required>
-                        
-                        <input class=" mt-2 btn btn-outline-primary btn-lg" type="submit" name="submit" value="Submit">
-                    </form>
-                    </div>
-                <br/>
-
-               
-                </body>
-
-                
-                </html>
-        
