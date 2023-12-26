@@ -3,17 +3,27 @@
 namespace service;
 
 use class\Patient;
+use class\Personne;
 use repositoring\PatientDAO;
+
 include_once $_SERVER['DOCUMENT_ROOT']."/ProjetPHP/class/¨Patient.php";
 include_once $_SERVER['DOCUMENT_ROOT']."/ProjetPHP/repositoring/PatientDAO.php";
+include_once $_SERVER['DOCUMENT_ROOT']."/ProjetPHP/class/Personne.php";
+include_once $_SERVER['DOCUMENT_ROOT']."/ProjetPHP/service/PersonneService.php";
+
 
 class PersonneService
 {
-    private PatientDAO $PatientDAO;
+ 
+    private PersonneDAO $PersonneDAO;
     private Patient $patient;
+    private Personne $personne;
+    private PersonneService $personneService;
 
-    public function __construct(Patient $patient,)
+
+    public function __construct(Patient $patient)
     {
+        $this->Personne = new Personne($patient->getNom(), $patient->getPrenom(), $patient->getCivilite().getName());
         $this->PatientDAO = new PatientDAO();
         $this->patient = $patient;
     }

@@ -28,19 +28,9 @@ if (isset($_POST['submit'])) {
         $personneToAdd = new class\Personne($nom, $prenom, class\Civilite::fromString($civ) );
         $personneService = new service\PersonneService($personneToAdd);
         $personneService->insert();
-        
-
-        // $query = "INSERT INTO `personne`(`Nom`, `Prenom`, `Civilite`) VALUES (?, ?, ?)";
-        // try {
-        //     $stmt = $conn->prepare($query);
-        //     $stmt->execute([$nom, $prenom, $civ]);
-        //     echo"<script>console.log('Patient ajouté');</script>";
-        // } catch (PDOException $e) {
-        //     echo "Erreur de requête : " . $e->getMessage();
-        // }
-
         //Insert patient*
         
+        $patientToAdd = new class\Patient();
 
 
         //TODO USE DAO WAITING FOR DAO
