@@ -12,7 +12,7 @@ class Personne
     private string $prenom;
     private Civilite $civilite;
 
-    private PDO|null $db;
+
 
 
 

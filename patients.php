@@ -21,9 +21,9 @@
                         <div class="col-1">
                             <label class="floatingInput"for="civ">Civilité:</label>
                             <select class="form-control from-select" name="civ" >
-                                <option value="M">M</option>
-                                <option value="Mme">Mme</option>
-                                <option value="Mlle">Mlle</option>
+                                <option value="MR">Mr</option>
+                                <option value="MME">Mme</option>
+                                <option value="MLLE">Mlle</option>  
                             </select>
                         </div>
 
