@@ -40,9 +40,10 @@ if (isset($_POST['submit'])) {
         // }
 
         //Insert patient*
+        
 
 
-
+        //TODO USE DAO WAITING FOR DAO
         $query = "INSERT INTO `patient`(`Id_Personne`, `Num_secu`, `Adresse`, `DateNaissance`, `LieuDeNaissance`, `Id_Personne_Id_medeciRef`) VALUES ((SELECT Id_Personne FROM personne WHERE Nom = ? AND Prenom = ?), ?, ?, ?, ?, 1)";
         try {
             $stmt = $conn->prepare($query);
