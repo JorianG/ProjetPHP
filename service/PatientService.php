@@ -25,7 +25,7 @@ class PatientService
     public function __construct(Patient $patient)
     {
         $this->personne = new Personne($patient->getNom(), $patient->getPrenom(), $patient->getCivilite());
-        $this->PatientDAO = new PatientDAO();
+        $this->PatientDAO = PatientDAO::getInstance();
         $this->patient = $patient;
     }
 

@@ -14,7 +14,7 @@ class PersonneService
 
     public function __construct(Personne $personne)
     {
-        $this->personneDAO = new PersonneDAO();
+        $this->personneDAO = PersonneDAO::getInstance();
         $this->personne = $personne;
     }
 

@@ -9,50 +9,57 @@ include_once $_SERVER['DOCUMENT_ROOT']."/ProjetPHP/PDO.php";
 
 class PersonneDAO
 {
-    private PDO $db;
+    private static PDO $db;
+    private static PersonneDAO $instance;
 
-    public function __construct()
+    public static function getInstance()
     {
-        $this->db = getInstance();
+        if(!isset(self::$db)){
+           self::$db = getInstance();
+        }
+        if (!isset(self::$instance)) {
+            self::$instance = new PersonneDAO();
+        }
+        return self::$instance;
     }
 
-    public function insert(Personne $p)
+    public static function insert(Personne $p)
     {
         //TODO : SQL Error
         //TODO : SQL Injection protection please
         $sql = "INSERT INTO Personne (Nom, Prenom, Civilite) VALUES ('".$p->getNom()."', '".$p->getPrenom()."', '".$p->getCivilite()->getName()."');";
-        $this->db->exec($sql);
+       self::$db->exec($sql);
     }
 
-    public function update(Personne $p)
+    public static function update(Personne $p)
     {
         $sql = "UPDATE Personne SET Nom = '".$p->getNom()."', Prenom = '".$p->getPrenom()."', Civilite = '".$p->getCivilite()->getName()."' WHERE Id_Personne = ".$p->getIdPersonne().";";
-        $this->db->exec($sql);
+        self::$db->exec($sql);
     }
 
-    public function delete(Personne $p)
+    public static function delete(Personne $p)
     {
         $sql = "DELETE FROM Personne WHERE Id_Personne = ".$p->getIdPersonne().";";
-        $this->db->exec($sql);
+        self::$db->exec($sql);
     }
 
-    public function selectById(int $id): mixed
+    public static function selectById(int $id): mixed
     {
         $sql = "SELECT * FROM Personne WHERE Id_Personne = ".$id.";";
-        $result = $this->db->query($sql);
+        $result = self::$db->query($sql);
         return $result->fetch();
     }
 
-    public function selectAll(): array|false
+    public static function selectAll(): array|false
     {
         $sql = "SELECT * FROM Personne;";
-        $result = $this->db->query($sql);
+        $result = self::$db->query($sql);
         return $result->fetchAll();
     }
 
-    public function getLastId(): int
+    public static function getLastId(): int
     {
         $sql = "SELECT MAX(Id_Personne) FROM Personne;";
-        return $this->db->query($sql)->fetch()[0];
+        return self::$db->query($sql)->fetch()[0];
     }
 }

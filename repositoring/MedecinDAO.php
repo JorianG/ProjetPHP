@@ -12,7 +12,7 @@ class MedecinDAO
 
     public function __construct()
     {
-        $this->db = connexion();
+        $this->db = getInstance();
     }
 
     public function insert(Medecin $m)
