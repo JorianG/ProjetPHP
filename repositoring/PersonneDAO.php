@@ -37,9 +37,9 @@ class PersonneDAO
         self::$db->exec($sql);
     }
 
-    public static function delete(Personne $p)
+    public static function delete(int $id_personne)
     {
-        $sql = "DELETE FROM Personne WHERE Id_Personne = ".$p->getIdPersonne().";";
+        $sql = "DELETE FROM Personne WHERE Id_Personne = ".$id_personne.";";
         self::$db->exec($sql);
     }
 

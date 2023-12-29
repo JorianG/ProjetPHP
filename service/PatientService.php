@@ -22,33 +22,36 @@ class PatientService
     private PersonneService $personneService;
 
 
-    public function __construct(Patient $patient)
+    public function __construct()
     {
-        $this->personne = new Personne($patient->getNom(), $patient->getPrenom(), $patient->getCivilite());
+        
         $this->PatientDAO = PatientDAO::getInstance();
-        $this->patient = $patient;
+        
     }
 
-    public function insert()
+    public function insert(Patient $patient)
     {
-        $this->personneService = new PersonneService($this->personne);   
-        $this->personneService->insert();
+        $this->patient = $patient;
+        $this->personne = new Personne($this->patient->getNom(), $this->patient->getPrenom(), $this->patient->getCivilite());
+        $this->personneService = new PersonneService();   
+        $this->personneService->insert($this->personne);
         $this->PatientDAO->insert($this->patient);
     }
 
-    public function update()
+    public function update(Patient $patient)
     {
+        $this->patient = $patient;
         $this->personne = new Personne($this->patient->getNom(), $this->patient->getPrenom(), $this->patient->getCivilite());
-        $this->personneService = new PersonneService($this->personne);
-        $this->personneService->update();
+        $this->personneService = new PersonneService();
+        $this->personneService->update($this->personne);
         $this->PatientDAO->update($this->patient);
     }
 
-    public function delete()
+    public function delete(int $id_patient)
     {
         $this->personneService = new PersonneService($this->personne);
-        $this->personneService->delete();
-        $this->PatientDAO->delete($this->patient->getIdPersonne());
+        $this->personneService->delete($id_patient);
+        $this->PatientDAO->delete($id_patient);
     }
 
     public function selectById(int $id): Patient
