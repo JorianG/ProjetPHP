@@ -8,7 +8,7 @@ class Patient extends Personne
 {
     private int $numeroDeSecu;
     private String $adresse;
-    private DateTime $dateDeNaisance;
+    private $dateDeNaisance;
     private string $lieuDeNaissance;
 
     private Medecin $medecinRefferent;

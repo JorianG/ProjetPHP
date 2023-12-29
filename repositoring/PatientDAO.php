@@ -19,15 +19,15 @@ class PatientDAO
 
     public function insert(Patient $p)
     {
-        
         //TODO : SQL Injection protection please
-        $sql = "INSERT INTO Patient VALUES ((SELECT Id_Personne FROM personne WHERE Nom = ? AND Prenom = ?), '".$p->getNumeroDeSecu()."', '".$p->getAdresse()."', '".$p->getDateDeNaisance()."', '".$p->getLieuDeNaissance()."', '".$p->getMedecinRefferent()."');";
+        //$sql = "INSERT INTO Patient VALUES ((SELECT Id_Personne FROM personne WHERE Nom = ? AND Prenom = ?), '".$p->getNumeroDeSecu()."', '".$p->getAdresse()."', '".$p->getDateDeNaisance()->format('Y-m-d')."', '".$p->getLieuDeNaissance()."', '".$p->getMedecinRefferent()."');";
+        $sql = "INSERT INTO Patient VALUES ((SELECT Id_Personne FROM personne WHERE Nom = '".$p->getNom()."' AND Prenom = '".$p->getPrenom()."' ), '".$p->getNumeroDeSecu()."', '".$p->getAdresse()."', '".$p->getDateDeNaisance()->format('Y-m-d')."', '".$p->getLieuDeNaissance()."', 1);";
         $this->db->exec($sql);
     }
 
     public function update(Patient $p)
     {
-        $sql = "UPDATE patient SET Num_Secu = '".$p->getNumeroDeSecu()."', Adresse = '".$p->getAdresse()."', DateNaissance = '".$p->getDateDeNaisance()."', LieuDeNaissance = '".$p->getLieuDeNaissance()."', Id_Personne_Id_medecinRef = '".$p->getMedecinRefferent()."' WHERE Id_Personne = ".$p->getIdPersonne().";";
+        $sql = "UPDATE patient SET Num_Secu = '".$p->getNumeroDeSecu()."', Adresse = '".$p->getAdresse()."', DateNaissance = '".$p->getDateDeNaisance()->format('Y-m-d')."', LieuDeNaissance = '".$p->getLieuDeNaissance()."', Id_Personne_Id_medecinRef = '".$p->getMedecinRefferent()."' WHERE Id_Personne = ".$p->getIdPersonne().";";
         $this->db->exec($sql);
     }
 
