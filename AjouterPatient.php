@@ -20,8 +20,8 @@ if (isset($_POST['submit'])) {
         $civ = $_POST['civ'];
         
         $patientToAdd = new class\Patient($numSecu,$nom, $prenom, class\Civilite::fromString($civ),$adresse, $dateN, $lieuN);
-        $patientService = new service\PatientService($patientToAdd);
-        $patientService->insert();
+        $patientService = new service\PatientService();
+        $patientService->insert($patientToAdd);
         
     }
 

@@ -12,25 +12,25 @@ class PersonneService
     private PersonneDAO $personneDAO;
     private Personne $personne;
 
-    public function __construct(Personne $personne)
+    public function __construct()
     {
-        $this->personneDAO = new PersonneDAO();
-        $this->personne = $personne;
+        $this->personneDAO = PersonneDAO::getInstance();
+
     }
 
-    public function insert()
+    public function insert(Personne $personne)
     {
-        $this->personneDAO->insert($this->personne);
+        $this->personneDAO->insert($personne);
     }
 
-    public function update()
+    public function update(Personne $personne)
     {
-        $this->personneDAO->update($this->personne);
+        $this->personneDAO->update($personne);
     }
 
-    public function delete()
+    public function delete(int $id_personne)
     {
-        $this->personneDAO->delete($this->personne);
+        $this->personneDAO->delete($id_personne);
     }
 
     public function selectById(int $id): Personne
