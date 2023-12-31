@@ -1,7 +1,7 @@
 <?php
 
 namespace class;
-
+include_once "Personne.php";
 use DateTime;
 
 class Patient extends Personne

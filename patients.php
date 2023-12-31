@@ -114,9 +114,9 @@
                                         </td>';
                                         $html .= '
                                         <td >
-                                            <form action="supr.php" method="post">
-                                                <input type="hidden" name="btn"  value="'.$row['Id_Personne'].'"></input>
-                                                <button class="btn btn-secondary p-2"type="submit">
+                                            <form action="./SuprPatient.php" method="post">
+                                                <input type="hidden" name="id_patient"  value="'.$row['Id_Personne'].'"></input>
+                                                <button class="btn btn-secondary p-2" type="submit">
                                                     <i class="bi bi-trash3"></i>
                                                 </button>
 

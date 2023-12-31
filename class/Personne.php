@@ -67,7 +67,7 @@ class Personne
 
     public function setIdSql()
     {
-        $this->idPersonne = (new PersonneDAO())->getLastId();
+        $this->idPersonne = PersonneDAO::getLastId();
     }
 
     public function setId(int $id)

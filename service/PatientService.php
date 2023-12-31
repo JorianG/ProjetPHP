@@ -26,14 +26,14 @@ class PatientService
     {
         
         $this->PatientDAO = PatientDAO::getInstance();
-        
+        $this->personneService = new PersonneService();   
     }
 
     public function insert(Patient $patient)
     {
         $this->patient = $patient;
         $this->personne = new Personne($this->patient->getNom(), $this->patient->getPrenom(), $this->patient->getCivilite());
-        $this->personneService = new PersonneService();   
+        
         $this->personneService->insert($this->personne);
         $this->PatientDAO->insert($this->patient);
     }
@@ -42,16 +42,16 @@ class PatientService
     {
         $this->patient = $patient;
         $this->personne = new Personne($this->patient->getNom(), $this->patient->getPrenom(), $this->patient->getCivilite());
-        $this->personneService = new PersonneService();
+       
         $this->personneService->update($this->personne);
         $this->PatientDAO->update($this->patient);
     }
 
     public function delete(int $id_patient)
     {
-        $this->personneService = new PersonneService($this->personne);
-        $this->personneService->delete($id_patient);
         $this->PatientDAO->delete($id_patient);
+        $this->personneService->delete($id_patient);
+        
     }
 
     public function selectById(int $id): Patient
