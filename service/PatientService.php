@@ -35,6 +35,8 @@ class PatientService
         $this->personne = new Personne($this->patient->getNom(), $this->patient->getPrenom(), $this->patient->getCivilite());
         
         $this->personneService->insert($this->personne);
+        $this->personne->setIdSql();
+        $this->patient->setIdPersonne($this->personne->getIdPersonne());
         $this->PatientDAO->insert($this->patient);
     }
 

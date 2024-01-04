@@ -23,7 +23,7 @@ include_once $_SERVER['DOCUMENT_ROOT']."/ProjetPHP/service/PatientService.php";
         
   
 
-header('Location: http://localhost/ProjetPHP/patients.php');
+header('Location: http://localhost/ProjetPHP/ListePatients.php');
 ?>
 
 

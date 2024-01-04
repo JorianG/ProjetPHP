@@ -1,11 +1,8 @@
 <?php
 
-require("PDO.php");
-include $_SERVER['DOCUMENT_ROOT']."/ProjetPHP/class/Personne.php";    
-include $_SERVER['DOCUMENT_ROOT']."/ProjetPHP/class/Patient.php";
-include $_SERVER['DOCUMENT_ROOT']."/ProjetPHP/class/Civilite.php";
-include $_SERVER['DOCUMENT_ROOT']."/ProjetPHP/service/PersonneService.php";   
-include $_SERVER['DOCUMENT_ROOT']."/ProjetPHP/service/PatientService.php";  
+include_once $_SERVER['DOCUMENT_ROOT']."/ProjetPHP/class/Patient.php";
+include_once $_SERVER['DOCUMENT_ROOT']."/ProjetPHP/class/Civilite.php";
+include_once $_SERVER['DOCUMENT_ROOT']."/ProjetPHP/service/PatientService.php";  
 
 if (isset($_POST['submit'])) {
 
@@ -19,6 +16,8 @@ if (isset($_POST['submit'])) {
         $lieuN = $_POST['lieuN'];
         $civ = $_POST['civ'];
         
+
+        // Create a new patient and personne object
         $patientToAdd = new class\Patient($numSecu,$nom, $prenom, class\Civilite::fromString($civ),$adresse, $dateN, $lieuN);
         $patientService = new service\PatientService();
         $patientService->insert($patientToAdd);
@@ -26,15 +25,10 @@ if (isset($_POST['submit'])) {
     }
 
 
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
-       
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {   
         addPatient();
-
-
-    header('Location: http://localhost/ProjetPHP/patients.php');
-        
-  
-}
+    }
+header('Location: http://localhost/ProjetPHP/ListePatients.php');
 }
 ?>
 

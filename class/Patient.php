@@ -2,16 +2,19 @@
 
 namespace class;
 include_once "Personne.php";
+include_once $_SERVER['DOCUMENT_ROOT']."/ProjetPHP/service/PersonneService.php";
+include_once $_SERVER['DOCUMENT_ROOT']."/ProjetPHP/class/Civilite.php";
 use DateTime;
 
 class Patient extends Personne
 {
+    private int $idPersonne;
     private int $numeroDeSecu;
     private String $adresse;
     private $dateDeNaisance;
     private string $lieuDeNaissance;
 
-    private Medecin $medecinRefferent;
+    private ?Medecin $medecinRefferent = null;
 
 
     public function __construct(int $numeroDeSecu,string $nom, string $prenom, Civilite $civilite, String $adresse,
@@ -25,6 +28,26 @@ class Patient extends Personne
         if ($medecinRefferent != null) {
             $this->medecinRefferent = $medecinRefferent;
         }
+
+        
+    }
+
+
+    public static function newFromRow(mixed $rows): Patient {
+        $p = new Patient($rows['Num_secu'],$rows['Nom'], $rows['Prenom'], Civilite::fromString($rows['Civilite']),$rows['Adresse'],
+        DateTime::createFromFormat('Y-m-d',$rows['DateNaissance']),$rows['LieuDeNaissance']);
+        $p->setId($rows['Id_Personne']);
+        return $p;
+    }
+
+    public function setIdPersonne(int $id): void
+    {
+        $this->idPersonne = $id;
+    }
+
+    public function getIdPersonne(): int
+    {
+        return $this->idPersonne;
     }
 
     /**

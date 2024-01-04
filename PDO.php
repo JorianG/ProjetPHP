@@ -1,4 +1,8 @@
+use PDO; // Import the PDO class from the global namespace
 <?php
+    
+
+
     //CONNEXION A LA BD 
     $conn = null;
 

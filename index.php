@@ -15,7 +15,7 @@
                             <div class="card-body">
                                 <h5 class="card-title">Gestion des patients</h5>
                                 <p class="card-text">Liste des patients de l'hopital permettant d'afficher leur profil ainsi que leur médecin responsable.</p>
-                                <a href="./patients.php" class="btn btn-primary">Voir la liste</a>
+                                <a href="./ListePatients.php" class="btn btn-primary">Voir la liste</a>
                             </div>
                     </div>
                     
