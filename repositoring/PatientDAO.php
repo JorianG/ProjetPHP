@@ -34,7 +34,8 @@ class PatientDAO
 
     public static function update(Patient $p)
     {
-        $sql = "UPDATE patient SET Num_Secu = '".$p->getNumeroDeSecu()."', Adresse = '".$p->getAdresse()."', DateNaissance = '".$p->getDateDeNaisance()->format('Y-m-d')."', LieuDeNaissance = '".$p->getLieuDeNaissance()."', Id_Personne_Id_medecinRef = '".$p->getMedecinRefferent()."' WHERE Id_Personne = ".$p->getIdPersonne().";";
+        $med = $p->getMedecinRefferent();
+        $sql = "UPDATE Patient SET Num_Secu = '".$p->getNumeroDeSecu()."', Adresse = '".$p->getAdresse()."', DateNaissance = '".$p->getDateDeNaisance()->format('Y-m-d')."', LieuDeNaissance = '".$p->getLieuDeNaissance()."', Id_Personne_Id_medeciRef = ".$med->getIdPersonne()." WHERE Id_Personne = ".$p->getIdPersonne().";";
         self::$db->exec($sql);
     }
 

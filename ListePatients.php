@@ -23,7 +23,7 @@
                                 <select class="form-control from-select" name="civ" >
                                     <option value="MR">Mr</option>
                                     <option value="MME">Mme</option>
-                                    <option value="MLLE">Mlle</option>  
+                                    <option value="MLE">Mlle</option>  
                                 </select>
                             </div>
 

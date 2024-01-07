@@ -21,7 +21,6 @@ class PatientService
 
     private PatientDAO $PatientDAO;
     private Patient $patient;
-    private Personne $personne;
     private PersonneService $personneService;
     private MedecinService $medecinService;
 
@@ -36,22 +35,25 @@ class PatientService
 
     public function insert(Patient $patient)
     {
-        $this->patient = $patient;
-        $this->personne = new Personne($this->patient->getNom(), $this->patient->getPrenom(), $this->patient->getCivilite());
         
-        $this->personneService->insert($this->personne);
-        $this->personne->setIdSql();
-        $this->patient->setIdPersonne($this->personne->getIdPersonne());
-        $this->PatientDAO->insert($this->patient);
+        $personne = new Personne($patient->getNom(), $patient->getPrenom(), $patient->getCivilite());
+        $this->personneService->insert($personne);
+        $personne->setIdSql();
+        $patient->setIdPersonne($personne->getIdPersonne());
+        $this->PatientDAO->insert($patient);
     }
 
     public function update(Patient $patient)
     {
-        $this->patient = $patient;
-        $this->personne = new Personne($this->patient->getNom(), $this->patient->getPrenom(), $this->patient->getCivilite());
-        $this->personne->setId($this->patient->getIdPersonne());
-        $this->personneService->update($this->personne);
-        $this->PatientDAO->update($this->patient);
+
+        //$this->personne = new Personne($patient->getNom(), $patient->getPrenom(), $patient->getCivilite());
+        //$this->personne->setId($patient->getIdPersonne());
+
+        $personne = new Personne($patient->getNom(), $patient->getPrenom(), $patient->getCivilite());
+        $personne->setId($patient->getIdPersonne());
+
+        $this->personneService->update($personne);
+        $this->PatientDAO->update($patient);
     }
 
     public function delete(int $id_patient)

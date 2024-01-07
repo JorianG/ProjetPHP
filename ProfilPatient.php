@@ -53,7 +53,7 @@
                             <select class='form-control form-control-sm' name='civ' id=''>
                                 <option value='MR'>Mr</option>
                                 <option value='MME'>Mme</option>
-                                <option value='MLLE'>Mlle</option>
+                                <option value='MLE'>Mlle</option>
                             </select>
                         </div>
                         </div>";
@@ -75,12 +75,13 @@
                             <input class='form-control form-control-sm' type='text' name='nom' value=".$patient->getNom().">
                         </div>
                         </div>";
+                        
 
                         //adresse
                         echo "<div class='form-group row mb-2'>
                         <label class='col-sm-3 col-form-label-sm' for='adresse'> Adresse :</label>
                         <div class='col-sm-9'>
-                            <input class='form-control form-control-sm' type='text' name='adresse' value=".$patient->getAdresse().">
+                            <input class='form-control form-control-sm' type='text' name='adresse' value='".$patient->getAdresse()."'>
                         </div>
                         </div>";
 
