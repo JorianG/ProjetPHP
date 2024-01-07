@@ -7,6 +7,7 @@
         include_once $_SERVER['DOCUMENT_ROOT']."/ProjetPHP/class/Civilite.php";
         include_once $_SERVER['DOCUMENT_ROOT']."/ProjetPHP/service/PatientService.php";
         include_once $_SERVER['DOCUMENT_ROOT']."/ProjetPHP/service/PersonneService.php";
+        include_once $_SERVER['DOCUMENT_ROOT']."/ProjetPHP/service/MedecinService.php";
         include_once $_SERVER['DOCUMENT_ROOT']."/ProjetPHP/class/Personne.php";
 
         function customHeader(){
@@ -20,7 +21,7 @@
             $idPatient = $_GET['id_patient'];
             $idPatient = intval($idPatient);
             //$personne = $personneServ->selectById($_POST['id_patient']);
-            $patient = $patientServ->selectById($idPatient);      
+            $patient = $patientServ->getById($idPatient);      
 
             customPageHeader('Profil de '.$patient->getNom().' '.$patient->getPrenom());
         }
@@ -122,6 +123,22 @@
                             </div>
                         </div>";
                         
+                        //echo $patient->getMedecinRefferent()->getIdPersonne();
+                        //medecin
+                        echo "<div class='form-group row mb-2'>
+                        <label class='col-sm-4 col-form-label-sm' for='med'> Médecin référent :</label>
+                        <div class='col-sm-8'>
+                            <select class='form-control form-control-sm' name='med' id='' value='".$patient->getMedecinRefferent()->getIdPersonne()."'>";
+                            $medecinReferentId = $patient->getMedecinRefferent()->getIdPersonne();
+                            $service = new service\MedecinService();
+                            $result = $service->getAll();
+                            foreach ($result as $row) {
+                                $selected = $row['Id_Personne'] == $medecinReferentId ? 'selected' : '';
+                                echo '<option value="'.$row['Id_Personne'].'" '.$selected.'> ['.$row['Specialite'].'] '.$row['Nom'].' '.$row['Prenom'].'</option>';
+                            }
+                            echo "</select>
+                        </div>
+                        </div>";
 
                         //hidden id
                         echo "<input type='hidden' name='id_patient' value='" . $idPatient . "'>";

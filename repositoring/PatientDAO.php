@@ -27,7 +27,8 @@ class PatientDAO
     public static function insert(Patient $p)
     {
         //TODO : SQL Injection protection please
-        $sql = "INSERT INTO Patient VALUES ('".$p->getIdPersonne()."', '".$p->getNumeroDeSecu()."', '".$p->getAdresse()."', '".$p->getDateDeNaisance()->format('Y-m-d')."', '".$p->getLieuDeNaissance()."', 1);";
+        $med = $p->getMedecinRefferent();
+        $sql = "INSERT INTO Patient VALUES ('".$p->getIdPersonne()."', '".$p->getNumeroDeSecu()."', '".$p->getAdresse()."', '".$p->getDateDeNaisance()->format('Y-m-d')."', '".$p->getLieuDeNaissance()."', ".$med->getIdPersonne().");";
         self::$db->exec($sql);
     }
 
@@ -62,6 +63,13 @@ class PatientDAO
         $sql = "SELECT * FROM Patient WHERE Id_Personne_Id_medecinRef = ".$id_medecin.";";
         $result =  self::$db->query($sql);
         return $result->fetchAll();
+    }
+
+    public static function getMedecinRefferent(int $id_patient): mixed
+    {
+        $sql = "SELECT Id_Personne_Id_medeciRef FROM Patient WHERE Patient.Id_Personne = ".$id_patient.";";
+        $result =  self::$db->query($sql);
+        return $result->fetch();
     }
 
 }

@@ -10,6 +10,9 @@ include_once $_SERVER['DOCUMENT_ROOT']."/ProjetPHP/class/Patient.php";
 include_once $_SERVER['DOCUMENT_ROOT']."/ProjetPHP/repositoring/PatientDAO.php";
 include_once $_SERVER['DOCUMENT_ROOT']."/ProjetPHP/class/Personne.php";
 include_once $_SERVER['DOCUMENT_ROOT']."/ProjetPHP/service/PersonneService.php";
+include_once $_SERVER['DOCUMENT_ROOT']."/ProjetPHP/service/MedecinService.php";
+
+
 
 
 class PatientService
@@ -20,13 +23,15 @@ class PatientService
     private Patient $patient;
     private Personne $personne;
     private PersonneService $personneService;
+    private MedecinService $medecinService;
 
 
     public function __construct()
     {
         
         $this->PatientDAO = PatientDAO::getInstance();
-        $this->personneService = new PersonneService();   
+        $this->personneService = new PersonneService();
+        $this->medecinService = new MedecinService();   
     }
 
     public function insert(Patient $patient)
@@ -57,8 +62,14 @@ class PatientService
     }
 
     public function getById(int $id): Patient
-    {
-        return Patient::newFromRow($this->PatientDAO->selectById($id));
+    {   
+        $patient = Patient::newFromRow($this->PatientDAO->selectById($id));
+        $patient->setIdPersonne($id);
+        $medRef = $this->medecinService->getById($this->PatientDAO->getMedecinRefferent($id)['Id_Personne_Id_medeciRef']);
+        $medRef->setIdPersonne($this->PatientDAO->getMedecinRefferent($id)['Id_Personne_Id_medeciRef']);
+        $patient->setMedecinRefferent($medRef);
+        return $patient;
+        
     }
 
     public function getAll(): array

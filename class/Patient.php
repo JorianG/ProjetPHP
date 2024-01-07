@@ -3,6 +3,8 @@
 namespace class;
 include_once "Personne.php";
 include_once $_SERVER['DOCUMENT_ROOT']."/ProjetPHP/class/Civilite.php";
+include_once $_SERVER['DOCUMENT_ROOT']."/ProjetPHP/class/Medecin.php";
+
 use DateTime;
 
 class Patient extends Personne
@@ -33,6 +35,7 @@ class Patient extends Personne
 
 
     public static function newFromRow(mixed $rows): Patient {
+
         $p = new Patient($rows['Num_secu'],$rows['Nom'], $rows['Prenom'], Civilite::fromString($rows['Civilite']),$rows['Adresse'],
         DateTime::createFromFormat('Y-m-d',$rows['DateNaissance']),$rows['LieuDeNaissance']);
         $p->setId($rows['Id_Personne']);

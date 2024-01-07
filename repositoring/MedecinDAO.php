@@ -43,7 +43,7 @@ class MedecinDAO
 
     public function getById(int $id_personne): mixed
     {
-        $sql = "SELECT * FROM Medecin WHERE idPersonne = '".$id_personne."';";
+        $sql = "SELECT * FROM Medecin, Personne WHERE Medecin.Id_Personne = ".$id_personne." AND Medecin.Id_Personne = Personne.Id_Personne;";
         $result =  self::$db->query($sql);
         return $result->fetch();
     }

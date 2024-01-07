@@ -2,7 +2,9 @@
 
 include_once $_SERVER['DOCUMENT_ROOT']."/ProjetPHP/class/Patient.php";
 include_once $_SERVER['DOCUMENT_ROOT']."/ProjetPHP/class/Civilite.php";
-include_once $_SERVER['DOCUMENT_ROOT']."/ProjetPHP/service/PatientService.php";  
+include_once $_SERVER['DOCUMENT_ROOT']."/ProjetPHP/service/PatientService.php";
+include_once $_SERVER['DOCUMENT_ROOT']."/ProjetPHP/service/MedecinService.php";
+
 
 if (isset($_POST['submit'])) {
 
@@ -17,9 +19,12 @@ if (isset($_POST['submit'])) {
         $civ = $_POST['civ'];
         $med = $_POST['med'];
         
+        $serviceMedecin = new service\MedecinService();
+        $medecin = $serviceMedecin->getById($med);
+        $medecin->setIdPersonne($med);
 
         // Create a new patient and personne object
-        $patientToAdd = new class\Patient($numSecu,$nom, $prenom, class\Civilite::fromString($civ),$adresse, $dateN, $lieuN, $med);
+        $patientToAdd = new class\Patient(intval($numSecu), $nom, $prenom, class\Civilite::fromString($civ), $adresse, $dateN, $lieuN, $medecin);
         $patientService = new service\PatientService();
         $patientService->insert($patientToAdd);
         
