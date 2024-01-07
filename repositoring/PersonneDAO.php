@@ -26,15 +26,27 @@ class PersonneDAO
     public static function insert(Personne $p)
     {
         //TODO : SQL Error
-        //TODO : SQL Injection protection please
-        $sql = "INSERT INTO Personne (Nom, Prenom, Civilite) VALUES ('".$p->getNom()."', '".$p->getPrenom()."', '".$p->getCivilite()->getName()."');";
-       self::$db->exec($sql);
+        $prepared = self::$db->prepare("INSERT INTO Personne (Nom, Prenom, Civilite) VALUES (:nom, :prenom, :civilite);");
+        $prepared->execute(array(
+            'nom' => $p->getNom(),
+            'prenom' => $p->getPrenom(),
+            'civilite' => $p->getCivilite()->getName()
+        ));
+//        $sql = "INSERT INTO Personne (Nom, Prenom, Civilite) VALUES ('".$p->getNom()."', '".$p->getPrenom()."', '".$p->getCivilite()->getName()."');";
+//       self::$db->exec($sql);
     }
 
     public static function update(Personne $p)
     {
-        $sql = "UPDATE Personne SET Nom = '".$p->getNom()."', Prenom = '".$p->getPrenom()."', Civilite = '".$p->getCivilite()->getName()."' WHERE Id_Personne = ".$p->getIdPersonne().";";
-        self::$db->exec($sql);
+        $prepared = self::$db->prepare("UPDATE Personne SET Nom = :nom, Prenom = :prenom, Civilite = :civilite WHERE Id_Personne = :id_personne;");
+        $prepared->execute(array(
+            'nom' => $p->getNom(),
+            'prenom' => $p->getPrenom(),
+            'civilite' => $p->getCivilite()->getName(),
+            'id_personne' => $p->getIdPersonne()
+        ));
+//        $sql = "UPDATE Personne SET Nom = '".$p->getNom()."', Prenom = '".$p->getPrenom()."', Civilite = '".$p->getCivilite()->getName()."' WHERE Id_Personne = ".$p->getIdPersonne().";";
+//        self::$db->exec($sql);
     }
 
     public static function delete(int $id_personne)
