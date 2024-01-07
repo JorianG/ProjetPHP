@@ -44,7 +44,7 @@ class PatientService
     {
         $this->patient = $patient;
         $this->personne = new Personne($this->patient->getNom(), $this->patient->getPrenom(), $this->patient->getCivilite());
-       
+        $this->personne->setId($this->patient->getIdPersonne());
         $this->personneService->update($this->personne);
         $this->PatientDAO->update($this->patient);
     }
@@ -56,13 +56,13 @@ class PatientService
         
     }
 
-    public function selectById(int $id): Patient
+    public function getById(int $id): Patient
     {
         return Patient::newFromRow($this->PatientDAO->selectById($id));
     }
 
-    public function selectAll(): array
+    public function getAll(): array
     {
-        return Patient::newFromArray($this->PatientDAO->selectAll());
+        return $this->PatientDAO->selectAll();
     }
 }

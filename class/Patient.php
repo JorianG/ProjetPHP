@@ -2,7 +2,6 @@
 
 namespace class;
 include_once "Personne.php";
-include_once $_SERVER['DOCUMENT_ROOT']."/ProjetPHP/service/PersonneService.php";
 include_once $_SERVER['DOCUMENT_ROOT']."/ProjetPHP/class/Civilite.php";
 use DateTime;
 

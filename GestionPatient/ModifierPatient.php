@@ -3,10 +3,8 @@
 include_once $_SERVER['DOCUMENT_ROOT']."/ProjetPHP/class/Patient.php";
 include_once $_SERVER['DOCUMENT_ROOT']."/ProjetPHP/class/Civilite.php";
 include_once $_SERVER['DOCUMENT_ROOT']."/ProjetPHP/service/PatientService.php";  
-
-if (isset($_POST['submit'])) {
-
-    function addPatient(){
+use class\Patient;
+    function modPatient(){
         // Retrieve the form data
         $prenom = $_POST['prenom'];
         $nom = $_POST['nom'];
@@ -15,22 +13,24 @@ if (isset($_POST['submit'])) {
         $dateN = DateTime::createFromFormat('Y-m-d', $_POST['dateN']);
         $lieuN = $_POST['lieuN'];
         $civ = $_POST['civ'];
-        $med = $_POST['med'];
-        
+        $idPatient = intval($_POST['id_patient']);
+
 
         // Create a new patient and personne object
-        $patientToAdd = new class\Patient($numSecu,$nom, $prenom, class\Civilite::fromString($civ),$adresse, $dateN, $lieuN, $med);
+        $patientToAdd = new Patient($numSecu,$nom, $prenom, class\Civilite::fromString($civ),$adresse, $dateN, $lieuN);
+        $patientToAdd->setIdPersonne($idPatient);
         $patientService = new service\PatientService();
-        $patientService->insert($patientToAdd);
+        $patientService->update($patientToAdd);
+        header('Location: http://localhost/ProjetPHP/ProfilPatient.php?id_patient='.$idPatient.'');
         
-    }
 
+    }
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {   
-        addPatient();
+        modPatient();
+    }else
+    {
+        header('Location: http://localhost/ProjetPHP/ListePatients.php');
     }
-header('Location: http://localhost/ProjetPHP/ListePatients.php');
-}
+
 ?>
-
-

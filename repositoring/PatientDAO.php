@@ -52,7 +52,7 @@ class PatientDAO
 
     public static function selectAll(): array|false
     {
-        $sql = "SELECT * FROM Patient;";
+        $sql = "SELECT * FROM Patient, Personne WHERE Patient.Id_Personne = Personne.Id_Personne;";
         $result =  self::$db->query($sql);
         return $result->fetchAll();
     }

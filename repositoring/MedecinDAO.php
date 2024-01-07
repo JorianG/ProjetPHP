@@ -26,34 +26,49 @@ class MedecinDAO
     public function insert(Medecin $m)
     {
         $sql = "INSERT INTO Medecin VALUES ('".$m->getIdPersonne()."', '".$m->getSpecialite()."' );";
-        $this->db->exec($sql);
+        self::$db->exec($sql);
     }
 
     public function update(Medecin $m)
     {
         $sql = "UPDATE Medecin SET specialite = '".$m->getSpecialite()."' WHERE idPersonne = '".$m->getIdPersonne()."';";
-        $this->db->exec($sql);
+        self::$db->exec($sql);
     }
 
     public function delete(Medecin $m)
     {
         $sql = "DELETE FROM Medecin WHERE idPersonne = '".$m->getIdPersonne()."';";
-        $this->db->exec($sql);
+        self::$db->exec($sql);
     }
 
-    public function selectById(int $id_personne): mixed
+    public function getById(int $id_personne): mixed
     {
         $sql = "SELECT * FROM Medecin WHERE idPersonne = '".$id_personne."';";
-        $result =  $this->db->query($sql);
+        $result =  self::$db->query($sql);
         return $result->fetch();
     }
 
-    public function selectAll(): array|false
+    public function getAll(): array|false
     {
-        $sql = "SELECT * FROM Medecin;";
-        $result =  $this->db->query($sql);
+        $sql = "SELECT * FROM Medecin, Personne WHERE Medecin.Id_Personne = Personne.Id_Personne";
+        $result =  self::$db->query($sql);
+        return $result->fetchAll(\PDO::FETCH_ASSOC);
+    }
+
+    public function getBySpecialite(string $specialite): array|false
+    {
+        $sql = "SELECT * FROM Medecin WHERE specialite = '".$specialite."';";
+        $result =  self::$db->query($sql);
         return $result->fetchAll();
     }
+
+    public function selectAllByPatient(int $id_patient): array|false
+    {
+        $sql = "SELECT * FROM Medecin WHERE idPersonne = (SELECT Id_Personne_Id_medecinRef FROM Patient WHERE Id_Personne = '".$id_patient."');";
+        $result =  self::$db->query($sql);
+        return $result->fetchAll();
+    }
+    
 
 
 }

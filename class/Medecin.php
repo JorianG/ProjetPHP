@@ -1,6 +1,9 @@
 <?php
 
 namespace class;
+include_once $_SERVER['DOCUMENT_ROOT']."/ProjetPHP/class/Personne.php";
+include_once $_SERVER['DOCUMENT_ROOT']."/ProjetPHP/class/Civilite.php";
+
 
 class Medecin extends Personne
 {
@@ -19,6 +22,8 @@ class Medecin extends Personne
         
         return $m;
     }
+
+    
 
     /**
      * @return string

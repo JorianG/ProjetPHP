@@ -3,8 +3,10 @@
 <html>
 <?php
     include './/header.php';
+
+
     if (function_exists('customPageHeader')){
-      customPageHeader('Liste des patients');
+      customPageHeader('Liste des medecins');
     }?>
                 
 
@@ -16,7 +18,7 @@
                 <div class=" container " style="margin-top: 18px;">
                 <h1 class="title-2">Ajouter un patient</h1>
 
-                    <form class=""method="post" action="./GestionPatient/AjouterPatient.php" >
+                    <form class=""method="post" action="./GestionMedecin/AjouterMedecin.php" >
                         <div class="row">
                             <div class="col-1">
                                 <label class="floatingInput"for="civ">Civilité:</label>
@@ -40,39 +42,12 @@
                             </div>
                         </div>
 
-                        <div class="row">
-                            <div class="col-8">
-                            <label for="adresse">Adresse:</label>
-                            <input class="form-control" type="text" name="adresse" placeholder="1 rue du Pont 31000 Toulouse" required>
-                            </div>
-                            <div class="col">
-                            <label for="numSecu">Num Secu:</label>
-                            <input class="form-control" type="text" name="numSecu"  maxlength="13" placeholder="1234567891234" required>
-                            </div>  
-                            </div>
                             <div class="row">
                                 <div class="col-2">
-                                <label for="dateN">Date de Naissance:</label>
-                                <input class="form-control" type="Date" name="dateN" required>
+                                <label for="dateN">Spécialité:</label>
+                                <input class="form-control" type="text" name="spe" required>
                                 </div>
-                                <div class="col-4">
-                                <label for="lieuN">Lieu de Naissance:</label>
-                                <input class="form-control" type="text" name="lieuN"  required>
-                                </div>
-                                <div class="col-6">
-                                <label for="lieuN">MedecinRef:</label>
-                                <select class="form-control from-select"  name="med"  required*>
-                                    <?php
-                                        include_once $_SERVER['DOCUMENT_ROOT']."/ProjetPHP/service/MedecinService.php";
-                                        $service = new service\MedecinService();
-                                        $result = $service->getAll();
-                                        foreach ($result as $row) {
-                                            echo '<option value="'.$row['Id_Personne'].'"> ['.$row['Specialite'].'] '.$row['Nom'].' '.$row['Prenom'].'</option>';
-                                        }
-                                    ?>
                                 
-                                </select>
-                                </div>
                                 
                             </div>
                             <input class=" mt-2 btn btn-outline-primary btn-lg" type="submit" name="submit" value="Ajouter">
@@ -89,8 +64,7 @@
                                 <th scope="col">Civ</th>
                                 <th scope="col">Nom</th>
                                 <th scope="col">Prénom</th>
-                                <th scope="col">Adresse</th>
-                                <th scope="col">Date de naissance</th>
+                                <th scope="col">Specialité</th>
                                 <th scope="col"></th>
                                 <th scope="col"></th>
                                 </tr>
@@ -102,11 +76,11 @@
                                 // $result =[];
                                 // include("PDO.php");
                                 // $conn = getInstance();
-                                // $sql = "SELECT * FROM Patient, Personne WHERE Patient.Id_Personne = Personne.Id_Personne";
+                                // $sql = "SELECT * FROM Medecin, Personne WHERE Medecin.Id_Personne = Personne.Id_Personne";
                                 // $sth = $conn->query($sql);
                                 // $result = $sth->fetchAll(\PDO::FETCH_ASSOC);
-                                include_once $_SERVER['DOCUMENT_ROOT']."/ProjetPHP/service/PatientService.php";
-                                $service = new service\PatientService();
+                                include_once $_SERVER['DOCUMENT_ROOT']."/ProjetPHP/service/MedecinService.php";
+                                $service = new service\MedecinService();
                                 $result = $service->getAll();
 
 
@@ -119,12 +93,11 @@
                                         $html .= '<td >'.$row['Civilite'].'</td>';
                                         $html .= '<td >'.$row['Nom'].'</td>';
                                         $html .= '<td >'.$row['Prenom'].'</td>';
-                                        $html .= '<td >'.$row['Adresse'].'</td>';
-                                        $html .= '<td >'.$row['DateNaissance'].'</td>';
+                                        $html .= '<td >'.$row['Specialite'].'</td>';
                                         $html .= '
                                         <td >
-                                            <form action="./ProfilPatient.php" method="get">
-                                                <input type="hidden" name="id_patient"  value="'.$row['Id_Personne'].'"></input>
+                                            <form action="./ProfilMedecin.php" method="get">
+                                                <input type="hidden" name="id_med"  value="'.$row['Id_Personne'].'"></input>
                                                 <button class="btn btn-primary p-2"type="submit">
                                                     <i class="bi bi-person-bounding-box"></i>
                                                 </button>
@@ -133,8 +106,8 @@
                                         </td>';
                                         $html .= '
                                         <td >
-                                            <form action="./GestionPatient/SuprPatient.php" method="post">
-                                                <input type="hidden" name="id_patient"  value="'.$row['Id_Personne'].'"></input>
+                                            <form action="./GestionPatient/SuprMedecin.php" method="post">
+                                                <input type="hidden" name="id_med"  value="'.$row['Id_Personne'].'"></input>
                                                 <button class="btn btn-secondary p-2" type="submit">
                                                     <i class="bi bi-trash3"></i>
                                                 </button>

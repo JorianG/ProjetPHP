@@ -22,7 +22,8 @@ enum Civilite
             "M" => Civilite::M,
             "MR" => Civilite::M,
             "MME" => Civilite::MME,
-            "MLLE" => Civilite::MLE,
+            "MLE" => Civilite::MLE,
+
         };
     }
 }
