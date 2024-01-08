@@ -89,4 +89,9 @@ class PatientService
     {
         $this->PatientDAO->resetMedecinTraitant($id_medecin);
     }
+    
+    public function isSet(int $id_personne): bool
+    {
+        return $this->PatientDAO->isSet($id_personne);
+    }
 }

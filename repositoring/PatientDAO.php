@@ -78,5 +78,11 @@ class PatientDAO
         $sql = "UPDATE Patient SET Id_Personne_Id_medeciRef = NULL WHERE Id_Personne_Id_medeciRef = ".$id_medecin.";";
         self::$db->exec($sql);
     }
-    
+
+    public static function isSet(int $id_personne): bool
+    {
+        $sql = "SELECT * FROM Patient WHERE Id_Personne = ".$id_personne.";"; // TODO try catch
+        $result =  self::$db->query($sql);
+        return $result->fetch() != null;
+    }
 }
