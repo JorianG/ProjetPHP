@@ -4,7 +4,7 @@ namespace class;
 
 use PDO;
 use repositoring\PersonneDAO;
-
+include_once $_SERVER['DOCUMENT_ROOT']."/ProjetPHP/class/Civilite.php";
 class Personne
 {
     private int $idPersonne;
@@ -23,7 +23,7 @@ class Personne
     }
 
     public static function newFromRow(mixed $rows): Personne {
-        $p = new Personne($rows['Nom'], $rows['Prenom'], $rows['Civilite']);
+        $p = new Personne($rows['Nom'], $rows['Prenom'], Civilite::fromString($rows['Civilite']) );
         $p->setId($rows['Id_Personne']);
         return $p;
     }
@@ -67,7 +67,7 @@ class Personne
 
     public function setIdSql()
     {
-        $this->idPersonne = (new PersonneDAO())->getLastId();
+        $this->idPersonne = PersonneDAO::getLastId();
     }
 
     public function setId(int $id)

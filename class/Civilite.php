@@ -19,9 +19,11 @@ enum Civilite
     public static function fromString(string $name): Civilite
     {
         return match (strtoupper($name)) {
+            "M" => Civilite::M,
             "MR" => Civilite::M,
             "MME" => Civilite::MME,
-            "MLLE" => Civilite::MLE,
+            "MLE" => Civilite::MLE,
+
         };
     }
 }

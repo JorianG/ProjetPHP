@@ -26,27 +26,17 @@ class PatientDAO
 
     public static function insert(Patient $p)
     {
-        $prepared = self::$db->prepare("INSERT INTO Personne (Nom, Prenom, Civilite) VALUES (:nom, :prenom, :civilite);");
-        $prepared->execute(array(
-            'nom' => $p->getNom(),
-            'prenom' => $p->getPrenom(),
-            'civilite' => $p->getCivilite()->getName()
-        ));
-//        $sql = "INSERT INTO Patient VALUES ((SELECT Id_Personne FROM personne WHERE Nom = '".$p->getNom()."' AND Prenom = '".$p->getPrenom()."' ), '".$p->getNumeroDeSecu()."', '".$p->getAdresse()."', '".$p->getDateDeNaisance()->format('Y-m-d')."', '".$p->getLieuDeNaissance()."', 1);";
-//        self::$db->exec($sql);
+        //TODO : SQL Injection protection please
+        $med = $p->getMedecinRefferent();
+        $sql = "INSERT INTO Patient VALUES ('".$p->getIdPersonne()."', '".$p->getNumeroDeSecu()."', '".$p->getAdresse()."', '".$p->getDateDeNaisance()->format('Y-m-d')."', '".$p->getLieuDeNaissance()."', ".$med->getIdPersonne().");";
+        self::$db->exec($sql);
     }
 
     public static function update(Patient $p)
     {
-        $prepared = self::$db->prepare("UPDATE Personne SET Nom = :nom, Prenom = :prenom, Civilite = :civilite WHERE Id_Personne = :id_personne;");
-        $prepared->execute(array(
-            'nom' => $p->getNom(),
-            'prenom' => $p->getPrenom(),
-            'civilite' => $p->getCivilite()->getName(),
-            'id_personne' => $p->getIdPersonne()
-        ));
-//        $sql = "UPDATE patient SET Num_Secu = '".$p->getNumeroDeSecu()."', Adresse = '".$p->getAdresse()."', DateNaissance = '".$p->getDateDeNaisance()->format('Y-m-d')."', LieuDeNaissance = '".$p->getLieuDeNaissance()."', Id_Personne_Id_medecinRef = '".$p->getMedecinRefferent()."' WHERE Id_Personne = ".$p->getIdPersonne().";";
-//        self::$db->exec($sql);
+        $med = $p->getMedecinRefferent();
+        $sql = "UPDATE Patient SET Num_Secu = '".$p->getNumeroDeSecu()."', Adresse = '".$p->getAdresse()."', DateNaissance = '".$p->getDateDeNaisance()->format('Y-m-d')."', LieuDeNaissance = '".$p->getLieuDeNaissance()."', Id_Personne_Id_medeciRef = ".$med->getIdPersonne()." WHERE Id_Personne = ".$p->getIdPersonne().";";
+        self::$db->exec($sql);
     }
 
     public static function delete(int $id_personne)
@@ -57,14 +47,14 @@ class PatientDAO
 
     public static function selectById(int $id_personne): mixed
     {
-        $sql = "SELECT * FROM Patient WHERE Id_Personne = ".$id_personne.";";
+        $sql = "SELECT * FROM Patient , Personne WHERE Patient.Id_Personne = ".$id_personne." AND Patient.Id_Personne = Personne.Id_Personne;";
         $result =  self::$db->query($sql);
         return $result->fetch();
     }
 
     public static function selectAll(): array|false
     {
-        $sql = "SELECT * FROM Patient;";
+        $sql = "SELECT * FROM Patient, Personne WHERE Patient.Id_Personne = Personne.Id_Personne;";
         $result =  self::$db->query($sql);
         return $result->fetchAll();
     }
@@ -76,4 +66,17 @@ class PatientDAO
         return $result->fetchAll();
     }
 
+    public static function getMedecinRefferent(int $id_patient): mixed
+    {
+        $sql = "SELECT Id_Personne_Id_medeciRef FROM Patient WHERE Patient.Id_Personne = ".$id_patient.";";
+        $result =  self::$db->query($sql);
+        return $result->fetch();
+    }
+
+    public static function resetMedecinTraitant(int $id_medecin)
+    {
+        $sql = "UPDATE Patient SET Id_Personne_Id_medeciRef = NULL WHERE Id_Personne_Id_medeciRef = ".$id_medecin.";";
+        self::$db->exec($sql);
+    }
+    
 }

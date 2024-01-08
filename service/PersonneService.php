@@ -10,7 +10,7 @@ include_once $_SERVER['DOCUMENT_ROOT']."/ProjetPHP/repositoring/PersonneDAO.php"
 class PersonneService
 {
     private PersonneDAO $personneDAO;
-    private Personne $personne;
+    
 
     public function __construct()
     {
@@ -21,6 +21,7 @@ class PersonneService
     public function insert(Personne $personne)
     {
         $this->personneDAO->insert($personne);
+        
     }
 
     public function update(Personne $personne)

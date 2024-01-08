@@ -10,6 +10,9 @@ include_once $_SERVER['DOCUMENT_ROOT']."/ProjetPHP/class/Patient.php";
 include_once $_SERVER['DOCUMENT_ROOT']."/ProjetPHP/repositoring/PatientDAO.php";
 include_once $_SERVER['DOCUMENT_ROOT']."/ProjetPHP/class/Personne.php";
 include_once $_SERVER['DOCUMENT_ROOT']."/ProjetPHP/service/PersonneService.php";
+include_once $_SERVER['DOCUMENT_ROOT']."/ProjetPHP/service/MedecinService.php";
+
+
 
 
 class PatientService
@@ -17,50 +20,73 @@ class PatientService
  
 
     private PatientDAO $PatientDAO;
-    private Patient $patient;
-    private Personne $personne;
+
     private PersonneService $personneService;
+    private MedecinService $medecinService;
 
 
     public function __construct()
     {
         
         $this->PatientDAO = PatientDAO::getInstance();
-        
+        $this->personneService = new PersonneService();
+        $this->medecinService = new MedecinService();   
     }
 
     public function insert(Patient $patient)
     {
-        $this->patient = $patient;
-        $this->personne = new Personne($this->patient->getNom(), $this->patient->getPrenom(), $this->patient->getCivilite());
-        $this->personneService = new PersonneService();   
-        $this->personneService->insert($this->personne);
-        $this->PatientDAO->insert($this->patient);
+        
+        $personne = new Personne($patient->getNom(), $patient->getPrenom(), $patient->getCivilite());
+        $this->personneService->insert($personne);
+        $personne->setIdSql();
+        $patient->setIdPersonne($personne->getIdPersonne());
+        $this->PatientDAO->insert($patient);
     }
 
     public function update(Patient $patient)
     {
-        $this->patient = $patient;
-        $this->personne = new Personne($this->patient->getNom(), $this->patient->getPrenom(), $this->patient->getCivilite());
-        $this->personneService = new PersonneService();
-        $this->personneService->update($this->personne);
-        $this->PatientDAO->update($this->patient);
+
+        //$this->personne = new Personne($patient->getNom(), $patient->getPrenom(), $patient->getCivilite());
+        //$this->personne->setId($patient->getIdPersonne());
+
+        $personne = new Personne($patient->getNom(), $patient->getPrenom(), $patient->getCivilite());
+        $personne->setId($patient->getIdPersonne());
+
+        $this->personneService->update($personne);
+        $this->PatientDAO->update($patient);
     }
 
     public function delete(int $id_patient)
     {
-        $this->personneService = new PersonneService($this->personne);
-        $this->personneService->delete($id_patient);
         $this->PatientDAO->delete($id_patient);
+        $this->personneService->delete($id_patient);
+        
     }
 
-    public function selectById(int $id): Patient
-    {
-        return Patient::newFromRow($this->PatientDAO->selectById($id));
+    public function getById(int $id): Patient
+    {   
+        $patient = Patient::newFromRow($this->PatientDAO->selectById($id));
+        $patient->setIdPersonne($id);
+
+        if($this->PatientDAO->getMedecinRefferent($id)['Id_Personne_Id_medeciRef'] != null){
+            $medRef = $this->medecinService->getById($this->PatientDAO->getMedecinRefferent($id)['Id_Personne_Id_medeciRef']);
+            $medRef->setIdPersonne($this->PatientDAO->getMedecinRefferent($id)['Id_Personne_Id_medeciRef']);
+        }else{
+            $medRef = null;
+        }
+        
+        $patient->setMedecinRefferent($medRef);
+        return $patient;
+        
     }
 
-    public function selectAll(): array
+    public function getAll(): array
     {
-        return Patient::newFromArray($this->PatientDAO->selectAll());
+        return $this->PatientDAO->selectAll();
+    }
+
+    public function resetMedecinTraitant(int $id_medecin)
+    {
+        $this->PatientDAO->resetMedecinTraitant($id_medecin);
     }
 }

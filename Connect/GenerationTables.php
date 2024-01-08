@@ -2,6 +2,7 @@
 
 use class\Medecin;
 use class\Patient;
+use class\RDV;
 
 require 'ConnexionDB.php';
     function creerTables() {
@@ -91,7 +92,7 @@ require 'ConnexionDB.php';
     {
         $db = connexion();
 
-        $sql = "INSERT INTO RDV VALUES (".($rdv->getMedecin()->getId()).", ".$rdv->getPatient()->getId().", '".$rdv->getDateHeure()."', ".$rdv->getDureeEnMinute().")";
+        $sql = "INSERT INTO RDV VALUES (".($rdv->getMedecin()->getIdPersonne()).", ".$rdv->getPatient()->getIdPersonne().", '".$rdv->getDateHeure()."', ".$rdv->getDureeEnMinute().")";
     }
 
 ?>
