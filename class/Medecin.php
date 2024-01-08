@@ -23,7 +23,13 @@ class Medecin extends Personne
         return $m;
     }
 
-    
+    public static function newFromArray(array $array): array {
+        $medecins = [];
+        foreach ($array as $row) {
+            $medecins[] = self::newFromRow($row);
+        }
+        return $medecins;
+    }
 
     /**
      * @return string
