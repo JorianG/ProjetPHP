@@ -73,4 +73,10 @@ class PatientDAO
         return $result->fetch();
     }
 
+    public static function resetMedecinTraitant(int $id_medecin)
+    {
+        $sql = "UPDATE Patient SET Id_Personne_Id_medeciRef = NULL WHERE Id_Personne_Id_medeciRef = ".$id_medecin.";";
+        self::$db->exec($sql);
+    }
+    
 }

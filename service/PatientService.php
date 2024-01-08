@@ -20,7 +20,7 @@ class PatientService
  
 
     private PatientDAO $PatientDAO;
-    private Patient $patient;
+
     private PersonneService $personneService;
     private MedecinService $medecinService;
 
@@ -67,8 +67,14 @@ class PatientService
     {   
         $patient = Patient::newFromRow($this->PatientDAO->selectById($id));
         $patient->setIdPersonne($id);
-        $medRef = $this->medecinService->getById($this->PatientDAO->getMedecinRefferent($id)['Id_Personne_Id_medeciRef']);
-        $medRef->setIdPersonne($this->PatientDAO->getMedecinRefferent($id)['Id_Personne_Id_medeciRef']);
+
+        if($this->PatientDAO->getMedecinRefferent($id)['Id_Personne_Id_medeciRef'] != null){
+            $medRef = $this->medecinService->getById($this->PatientDAO->getMedecinRefferent($id)['Id_Personne_Id_medeciRef']);
+            $medRef->setIdPersonne($this->PatientDAO->getMedecinRefferent($id)['Id_Personne_Id_medeciRef']);
+        }else{
+            $medRef = null;
+        }
+        
         $patient->setMedecinRefferent($medRef);
         return $patient;
         
@@ -77,5 +83,10 @@ class PatientService
     public function getAll(): array
     {
         return $this->PatientDAO->selectAll();
+    }
+
+    public function resetMedecinTraitant(int $id_medecin)
+    {
+        $this->PatientDAO->resetMedecinTraitant($id_medecin);
     }
 }

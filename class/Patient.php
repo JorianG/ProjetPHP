@@ -87,7 +87,7 @@ class Patient extends Personne
     /**
      * @return Medecin
      */
-    public function getMedecinRefferent(): Medecin
+    public function getMedecinRefferent(): Medecin | null
     {
         return $this->medecinRefferent;
     }
@@ -127,7 +127,7 @@ class Patient extends Personne
     /**
      * @param Medecin $medecinRefferent
      */
-    public function setMedecinRefferent(Medecin $medecinRefferent): void
+    public function setMedecinRefferent(Medecin | null $medecinRefferent): void
     {
         $this->medecinRefferent = $medecinRefferent;
     }

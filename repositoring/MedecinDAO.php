@@ -31,13 +31,13 @@ class MedecinDAO
 
     public function update(Medecin $m)
     {
-        $sql = "UPDATE Medecin SET specialite = '".$m->getSpecialite()."' WHERE idPersonne = '".$m->getIdPersonne()."';";
+        $sql = "UPDATE Medecin SET specialite = '".$m->getSpecialite()."' WHERE id_Personne = '".$m->getIdPersonne()."';";
         self::$db->exec($sql);
     }
 
-    public function delete(Medecin $m)
+    public function delete(int $id_personne)
     {
-        $sql = "DELETE FROM Medecin WHERE idPersonne = '".$m->getIdPersonne()."';";
+        $sql = "DELETE FROM Medecin WHERE id_Personne = ".$id_personne.";";
         self::$db->exec($sql);
     }
 

@@ -129,8 +129,13 @@
                         echo "<div class='form-group row mb-2'>
                         <label class='col-sm-4 col-form-label-sm' for='med'> Médecin référent :</label>
                         <div class='col-sm-8'>
-                            <select class='form-control form-control-sm' name='med' id='' value='".$patient->getMedecinRefferent()->getIdPersonne()."'>";
-                            $medecinReferentId = $patient->getMedecinRefferent()->getIdPersonne();
+                            <select class='form-control form-control-sm' name='med' id='' >";
+                            if ($patient->getMedecinRefferent() == null) {
+                                echo "<option value=''>Aucun</option>";
+                            }
+                            else{
+                                $medecinReferentId = $patient->getMedecinRefferent()->getIdPersonne();
+                            }
                             $service = new service\MedecinService();
                             $result = $service->getAll();
                             foreach ($result as $row) {

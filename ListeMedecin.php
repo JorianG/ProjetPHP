@@ -25,7 +25,7 @@
                                 <select class="form-control from-select" name="civ" >
                                     <option value="MR">Mr</option>
                                     <option value="MME">Mme</option>
-                                    <option value="MLLE">Mlle</option>  
+                                    <option value="MLE">Mlle</option>  
                                 </select>
                             </div>
 
@@ -106,7 +106,7 @@
                                         </td>';
                                         $html .= '
                                         <td >
-                                            <form action="./GestionPatient/SuprMedecin.php" method="post">
+                                            <form action="./GestionMedecin/SuprMedecin.php" method="post">
                                                 <input type="hidden" name="id_med"  value="'.$row['Id_Personne'].'"></input>
                                                 <button class="btn btn-secondary p-2" type="submit">
                                                     <i class="bi bi-trash3"></i>
