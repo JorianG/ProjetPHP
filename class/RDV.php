@@ -3,9 +3,11 @@
 namespace class;
 
 use DateTime;
+use repositoring\RDVDAO;
 
 class RDV
 {
+    private int $idRDV;
     private Patient $patient;
     private Medecin $medecin;
 
@@ -18,6 +20,26 @@ class RDV
         $this->medecin = $medecin;
         $this->dateHeure = $dateHeure;
         $this->dureeEnMinute = $dureeEnMinute;
+    }
+
+    public static function newFromRow(mixed $rows): RDV
+    {
+        $rdv = new RDV(
+            $rows['Id_Personne_Id_Patient'],
+            $rows['Id_Personne_id_medecin'],
+            $rows['DateHeure'],
+            $rows['DureeEnM']);
+        $rdv->setId($rows['Id_RDV']);
+        return $rdv;
+    }
+
+    public static function newFromArray(array $rows): array
+    {
+        $rdvs = [];
+        foreach ($rows as $row) {
+            $rdvs[] = RDV::newFromRow($row);
+        }
+        return $rdvs;
     }
 
     /**
@@ -82,5 +104,15 @@ class RDV
     public function setDureeEnMinute(int $dureeEnMinute): void
     {
         $this->dureeEnMinute = $dureeEnMinute;
+    }
+
+    public function setId(int $Id_RDV): void
+    {
+        $this->idRDV = $Id_RDV;
+    }
+
+    public function getIdRDV(): int
+    {
+        return $this->idRDV;
     }
 }

@@ -17,8 +17,6 @@ include_once $_SERVER['DOCUMENT_ROOT']."/ProjetPHP/service/MedecinService.php";
 
 class PatientService
 {
- 
-
     private PatientDAO $PatientDAO;
 
     private PersonneService $personneService;
@@ -45,10 +43,6 @@ class PatientService
 
     public function update(Patient $patient): void
     {
-
-        //$this->personne = new Personne($patient->getNom(), $patient->getPrenom(), $patient->getCivilite());
-        //$this->personne->setId($patient->getIdPersonne());
-
         $personne = new Personne($patient->getNom(), $patient->getPrenom(), $patient->getCivilite());
         $personne->setId($patient->getIdPersonne());
 
