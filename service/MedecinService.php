@@ -2,6 +2,7 @@
 
 namespace service;
 use class\Medecin;
+use class\Patient;
 use service\PersonneService;
 use repositoring\MedecinDAO;
 use class\Personne;
@@ -49,7 +50,7 @@ class MedecinService
 
     public function getAll(): false|array
     {
-        return $this->medecinDAO->getAll();
+        return Medecin::newFromArray($this->medecinDAO->getAll());
 
     }
 
@@ -60,7 +61,7 @@ class MedecinService
 
     public function getBySpecialite(string $specialite): false|array
     {
-        return $this->medecinDAO->getBySpecialite($specialite);
+        return Medecin::newFromArray($this->medecinDAO->getBySpecialite($specialite));
     }
 
     public function isSet(int $id): bool
@@ -70,7 +71,7 @@ class MedecinService
 
     public function getPatients(int $id_medecin): false|array
     {
-        return $this->medecinDAO->getPatients($id_medecin);
+        return Patient::newFromArray($this->medecinDAO->getPatients($id_medecin));
     }
 }
 ?>
