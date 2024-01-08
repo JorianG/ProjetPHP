@@ -23,52 +23,56 @@ class MedecinDAO
         return self::$instance;
     }
 
-    public function insert(Medecin $m)
+    public static function insert(Medecin $m): void
     {
         $sql = "INSERT INTO Medecin VALUES ('".$m->getIdPersonne()."', '".$m->getSpecialite()."' );";
         self::$db->exec($sql);
     }
 
-    public function update(Medecin $m)
+    public static function update(Medecin $m): void
     {
         $sql = "UPDATE Medecin SET specialite = '".$m->getSpecialite()."' WHERE id_Personne = '".$m->getIdPersonne()."';";
         self::$db->exec($sql);
     }
 
-    public function delete(int $id_personne)
+    public static function delete(int $id_personne): void
     {
         $sql = "DELETE FROM Medecin WHERE id_Personne = ".$id_personne.";";
         self::$db->exec($sql);
     }
 
-    public function getById(int $id_personne): mixed
+    public static function getById(int $id_personne): mixed
     {
         $sql = "SELECT * FROM Medecin, Personne WHERE Medecin.Id_Personne = ".$id_personne." AND Medecin.Id_Personne = Personne.Id_Personne;";
         $result =  self::$db->query($sql);
         return $result->fetch();
     }
 
-    public function getAll(): array|false
+    public static function getAll(): array|false
     {
         $sql = "SELECT * FROM Medecin, Personne WHERE Medecin.Id_Personne = Personne.Id_Personne";
         $result =  self::$db->query($sql);
         return $result->fetchAll(\PDO::FETCH_ASSOC);
     }
 
-    public function getBySpecialite(string $specialite): array|false
+    public static function getBySpecialite(string $specialite): array|false
     {
         $sql = "SELECT * FROM Medecin WHERE specialite = '".$specialite."';";
         $result =  self::$db->query($sql);
         return $result->fetchAll();
     }
 
-    public function selectAllByPatient(int $id_patient): array|false
+    public static function selectAllByPatient(int $id_patient): array|false
     {
         $sql = "SELECT * FROM Medecin WHERE idPersonne = (SELECT Id_Personne_Id_medecinRef FROM Patient WHERE Id_Personne = '".$id_patient."');";
         $result =  self::$db->query($sql);
         return $result->fetchAll();
     }
-    
 
-
+    public static function isSet(int $id_personne): bool
+    {
+        $sql = "SELECT * FROM Medecin WHERE id_Personne = ".$id_personne.";";
+        $result =  self::$db->query($sql);
+        return $result->fetch() != null;
+    }
 }
