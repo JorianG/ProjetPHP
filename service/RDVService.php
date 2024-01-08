@@ -40,7 +40,7 @@ class RDVService
         $this->RDVDAO->delete($id_RDV);
     }
 
-    public function selectAll(): false|array
+    public function selectAll(): false|array // TODO refacto newFromArray
     {
         return $this->RDVDAO->selectAll();
     }
@@ -52,12 +52,12 @@ class RDVService
 
     public function selectAllByPatientId(Patient $patient): array
     {
-        return RDV::newFromArray($this->RDVDAO->selectAllByPatient($patient->getIdPersonne()));
+        return $this->RDVDAO->selectAllByPatient($patient->getIdPersonne());
     }
 
     public function selectAllByMedecin(Medecin $medecin): array
     {
-        return RDV::newFromArray($this->RDVDAO->selectAllByMedecin($medecin->getIdPersonne()));
+        return $this->RDVDAO->selectAllByMedecin($medecin->getIdPersonne());
     }
 
 
