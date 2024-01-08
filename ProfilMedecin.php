@@ -9,27 +9,29 @@
         include_once $_SERVER['DOCUMENT_ROOT']."/ProjetPHP/service/PersonneService.php";
         include_once $_SERVER['DOCUMENT_ROOT']."/ProjetPHP/service/MedecinService.php";
         include_once $_SERVER['DOCUMENT_ROOT']."/ProjetPHP/class/Personne.php";
+        include_once $_SERVER['DOCUMENT_ROOT']."/ProjetPHP/class/Medecin.php";
+
 
         function customHeader(){
             
-            $patientServ = new service\PatientService();
+            $MedServ = new service\MedecinService();
 
             // global $personne;
-            global $patient; 
-            global $idPatient;
+            global $Med; 
+            global $idMed;
 
-            $idPatient = $_GET['id_patient'];
-            $idPatient = intval($idPatient);
+            $idMed = intval($_GET['id_med']);
+
             //$personne = $personneServ->selectById($_POST['id_patient']);
-            if($patientServ->isSet($idPatient)){
-                $patient = $patientServ->getById($idPatient);
+            if($MedServ->isSet($idMed)){
+                $Med = $MedServ->getById($idMed);
             }
             else{
                 header('Location: ./404.php');
             }
            
 
-            customPageHeader('Profil de '.$patient->getNom().' '.$patient->getPrenom());
+            customPageHeader('Profil du Dr '.$Med->getNom().';');
         }
 
         //if directly accessed, redirect to ListePatients.php
@@ -37,28 +39,29 @@
             customHeader();
         }
         else{
-            header('Location: ./ListePatients.php');
+            header('Location: ./ListeMedecin.php');
         }
 
     ?>
     <div class=" container " style="margin-top: 18px;">
         <div class="row">
             <div class="col-2">
-                <img src="./assets/patient.png" alt="" class="rounded-circle img-thumbnail" style="height: 200px;">
+                <img src="./assets/docteur.png" alt="" class="rounded-circle img-thumbnail" style="height: 200px;">
             </div>
             <div class="col-4 h5 border border-primary rounded m-3 p-2">
-                <form class="" method="POST" action="./GestionPatient/ModifierPatient.php" >
+                <form class="" method="POST" action="./GestionMedecin/ModifierMedecin.php" >
                 
                 <?php
                     if ($_SERVER["REQUEST_METHOD"] == "GET") {
-                        echo  $patient->getCivilite()->getName();
+
                         //civilité
+;
                         echo "<div class='form-group row mb-2'>
                         <label class='col-sm-3 col-form-label-sm' for='nom'> Civilité :</label>
                         <div class='col-sm-9'>
                             <select class='form-control form-control-sm' name='civ' id=''>";
                                 
-                                $civ = $patient->getCivilite()->getName();
+                                $civ = $Med->getCivilite()->getName();
                                 if ($civ == "M") {
                                     echo "<option value='MR' selected>Mr</option>";
                                     echo "<option value='MLE'>Mlle</option>";
@@ -82,7 +85,7 @@
                         echo "<div class='form-group row mb-2'>
                         <label class='col-sm-3 col-form-label-sm' for='prenom'> Prénom :</label>
                         <div class='col-sm-9'>
-                            <input class='form-control form-control-sm' type='text' name='prenom' value=".$patient->getPrenom().">
+                            <input class='form-control form-control-sm' type='text' name='prenom' value=".$Med->getPrenom().">
                         </div>
                         </div>";
                         
@@ -91,90 +94,29 @@
                         echo "<div class='form-group row mb-2'>
                         <label class='col-sm-3 col-form-label-sm' for='nom'> Nom :</label>
                         <div class='col-sm-9'>
-                            <input class='form-control form-control-sm' type='text' name='nom' value=".$patient->getNom().">
+                            <input class='form-control form-control-sm' type='text' name='nom' value=".$Med->getNom().">
                         </div>
                         </div>";
+                    
                         
-
-                        //adresse
+                        //Specialité
                         echo "<div class='form-group row mb-2'>
-                        <label class='col-sm-3 col-form-label-sm' for='adresse'> Adresse :</label>
+                        <label class='col-sm-3 col-form-label-sm' for='nom'> Spécialité :</label>
                         <div class='col-sm-9'>
-                            <input class='form-control form-control-sm' type='text' name='adresse' value='".$patient->getAdresse()."'>
-                        </div>
-                        </div>";
-
-                        //numSecu
-                        echo "<div class='form-group row mb-2'>
-                        <label class='col-sm-6 col-form-label-sm' for='numSecu'> Numéro de sécurité sociale :</label>
-                        <div class='col-sm-6'>
-                            <input class='form-control form-control-sm' type='text' name='numSecu' value=".$patient->getNumeroDeSecu()." maxlength='10' pattern='[0-9]+'>
-                        </div>
-                        </div>";
-
-                        
-
-                        // Calculate age
-                        $birthDate = $patient->getDateDeNaisance();
-                        $today = new DateTime();
-                        $age = $today->diff($birthDate)->y;
-
-                        echo "<div class='form-group row mb-2'>
-                        <label class='col-sm-3 col-form-label-sm' for='age'> Age :".$age."</label>
-                        </div>";
-
-                        
-                       
-                        //dateN
-                        echo "<div class='form-group row mb-2'>
-                        <label class='col-sm-4 col-form-label-sm' for='dateN'> Date de naissance :</label>
-                        <div class='col-sm-8'>
-                            <input class='form-control form-control-sm' type='date' name='dateN' value=".$patient->getDateDeNaisance()->format('Y-m-d').">
-                        </div>
-                        </div>";
-
-                        
-
-                        // lieu de naissance
-                        echo "<div class='form-group row mb-2'>
-                            <label class='col-sm-4 col-form-label-sm' for='lieuN'> Lieu de naissance :</label>
-                            <div class='col-sm-8'>
-                                <input class='form-control form-control-sm' type='text' name='lieuN' value=".$patient->getLieuDeNaissance().">
-                            </div>
-                        </div>";
-                        
-                        //echo $patient->getMedecinRefferent()->getIdPersonne();
-                        //medecin
-                        echo "<div class='form-group row mb-2'>
-                        <label class='col-sm-4 col-form-label-sm' for='med'> Médecin référent :</label>
-                        <div class='col-sm-8'>
-                            <select class='form-control form-control-sm' name='med' id='' >";
-                            if ($patient->getMedecinRefferent() == null) {
-                                echo "<option value=''>Aucun</option>";
-                            }
-                            else{
-                                $medecinReferentId = $patient->getMedecinRefferent()->getIdPersonne();
-                            }
-                            $service = new service\MedecinService();
-                            $result = $service->getAll();
-                            foreach ($result as $row) {
-                                $selected = $row['Id_Personne'] == $medecinReferentId ? 'selected' : '';
-                                echo '<option value="'.$row['Id_Personne'].'" '.$selected.'> ['.$row['Specialite'].'] '.$row['Nom'].' '.$row['Prenom'].'</option>';
-                            }
-                            echo "</select>
+                            <input class='form-control form-control-sm' type='text' name='spe' value=".$Med->getSpecialite().">
                         </div>
                         </div>";
 
                         //hidden id
-                        echo "<input type='hidden' name='id_patient' value='" . $idPatient . "'>";
+                        echo "<input type='hidden' name='idMed' value='" . $idMed . "'>";
  
                         echo "<input class=' float-right btn btn-outline-primary ' type='submit' value='Modifier'>";
 
 
                         //Form to see medecin
-                        // if ($patient->getMedecinRefferent() != null) {
+                        // if ($Med->getMedecinRefferent() != null) {
                         //     echo "<form action='./Medecin.php' method='POST'>";
-                        //     echo "<input type='hidden' name='id_medecin' value='" . $patient->getMedecinRefferent()->getId() . "'>";
+                        //     echo "<input type='hidden' name='id_medecin' value='" . $Med->getMedecinRefferent()->getId() . "'>";
                         //     echo "<button type='submit'>Voir le médecin référent</button>";
                         //     echo "</form>";
                         // }

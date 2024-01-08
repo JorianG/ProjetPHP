@@ -36,10 +36,11 @@ class MedecinService
 
     public function update(Medecin $medecin): void
     {
-        $this->medecin = $medecin;
-        $this->personne = new Personne($this->medecin->getNom(), $this->medecin->getPrenom(), $this->medecin->getCivilite());
-        $this->personneService->update($this->personne);
-        $this->medecinDAO->update($this->medecin);
+        ;
+        $personne = new Personne($medecin->getNom(), $medecin->getPrenom(), $medecin->getCivilite());
+        $personne->setId($medecin->getIdPersonne());
+        $this->personneService->update($personne);
+        $this->medecinDAO->update($medecin);
     }
 
     public function delete(int $id_medecin): void
@@ -50,7 +51,7 @@ class MedecinService
 
     public function getAll(): false|array
     {
-        return Medecin::newFromArray($this->medecinDAO->getAll());
+        return $this->medecinDAO->getAll();
 
     }
 
