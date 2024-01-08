@@ -75,4 +75,11 @@ class MedecinDAO
         $result =  self::$db->query($sql);
         return $result->fetch() != null;
     }
+
+    public static function getPatients(int $id_medecin): array|false
+    {
+        $sql = "SELECT * FROM Patient WHERE Id_Personne_Id_medecinRef = ".$id_medecin.";";
+        $result =  self::$db->query($sql);
+        return $result->fetchAll();
+    }
 }

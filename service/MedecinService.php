@@ -67,6 +67,11 @@ class MedecinService
     {
         return $this->medecinDAO->isSet($id);
     }
+
+    public function getPatients(int $id_medecin): false|array
+    {
+        return $this->medecinDAO->getPatients($id_medecin);
+    }
 }
 ?>
 
