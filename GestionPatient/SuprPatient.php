@@ -6,7 +6,8 @@ use service\PatientService;
 include_once $_SERVER['DOCUMENT_ROOT']."/ProjetPHP/service/PatientService.php";
 include_once $_SERVER['DOCUMENT_ROOT']."/ProjetPHP/domaine/PersonneService.php";
 
-    function suprPatient(){
+    function suprPatient(): void
+    {
         $id_patient = $_POST['id_patient'];
         
         $patientService = new service\PatientService();

@@ -6,7 +6,8 @@ include_once $_SERVER['DOCUMENT_ROOT']."/ProjetPHP/service/PatientService.php";
 include_once $_SERVER['DOCUMENT_ROOT']."/ProjetPHP/service/MedecinService.php";
 
 use class\Patient;
-    function modPatient(){
+    function modPatient(): void
+    {
         // Retrieve the form data
         $prenom = $_POST['prenom'];
         $nom = $_POST['nom'];

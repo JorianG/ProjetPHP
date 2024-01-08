@@ -33,7 +33,7 @@ class PatientService
         $this->medecinService = new MedecinService();   
     }
 
-    public function insert(Patient $patient)
+    public function insert(Patient $patient): void
     {
         
         $personne = new Personne($patient->getNom(), $patient->getPrenom(), $patient->getCivilite());
@@ -43,7 +43,7 @@ class PatientService
         $this->PatientDAO->insert($patient);
     }
 
-    public function update(Patient $patient)
+    public function update(Patient $patient): void
     {
 
         //$this->personne = new Personne($patient->getNom(), $patient->getPrenom(), $patient->getCivilite());
@@ -56,7 +56,7 @@ class PatientService
         $this->PatientDAO->update($patient);
     }
 
-    public function delete(int $id_patient)
+    public function delete(int $id_patient): void
     {
         $this->PatientDAO->delete($id_patient);
         $this->personneService->delete($id_patient);
@@ -89,7 +89,7 @@ class PatientService
     {
         $this->PatientDAO->resetMedecinTraitant($id_medecin);
     }
-    
+
     public function isSet(int $id_personne): bool
     {
         return $this->PatientDAO->isSet($id_personne);

@@ -12,7 +12,7 @@ class PersonneDAO
     private static PDO $db;
     private static PersonneDAO $instance;
 
-    public static function getInstance()
+    public static function getInstance(): PersonneDAO
     {
         if(!isset(self::$db)){
            self::$db = getInstance();
@@ -23,7 +23,7 @@ class PersonneDAO
         return self::$instance;
     }
 
-    public static function insert(Personne $p)
+    public static function insert(Personne $p): void
     {
         //TODO : SQL Error
         $prepared = self::$db->prepare("INSERT INTO Personne (Nom, Prenom, Civilite) VALUES (:nom, :prenom, :civilite);");
@@ -36,7 +36,7 @@ class PersonneDAO
 //       self::$db->exec($sql);
     }
 
-    public static function update(Personne $p)
+    public static function update(Personne $p): void
     {
         $prepared = self::$db->prepare("UPDATE Personne SET Nom = :nom, Prenom = :prenom, Civilite = :civilite WHERE Id_Personne = :id_personne;");
         $prepared->execute(array(
@@ -49,7 +49,7 @@ class PersonneDAO
 //        self::$db->exec($sql);
     }
 
-    public static function delete(int $id_personne)
+    public static function delete(int $id_personne): void
     {
         $sql = "DELETE FROM Personne WHERE Id_Personne = ".$id_personne.";";
         self::$db->exec($sql);

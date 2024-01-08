@@ -8,7 +8,8 @@ include_once $_SERVER['DOCUMENT_ROOT']."/ProjetPHP/service/MedecinService.php";
 
 if (isset($_POST['submit'])) {
 
-    function addPatient(){
+    function addPatient(): void
+    {
         // Retrieve the form data
         $prenom = $_POST['prenom'];
         $nom = $_POST['nom'];

@@ -18,18 +18,18 @@ class PersonneService
 
     }
 
-    public function insert(Personne $personne)
+    public function insert(Personne $personne): void
     {
         $this->personneDAO->insert($personne);
         
     }
 
-    public function update(Personne $personne)
+    public function update(Personne $personne): void
     {
         $this->personneDAO->update($personne);
     }
 
-    public function delete(int $id_personne)
+    public function delete(int $id_personne): void
     {
         $this->personneDAO->delete($id_personne);
     }

@@ -13,7 +13,7 @@ class PatientDAO
     private static PDO $db;
     private static PatientDAO $instance;
 
-    public static function getInstance()
+    public static function getInstance(): PatientDAO
     {
         if(!isset(self::$db)){
             self::$db = getInstance();
@@ -24,7 +24,7 @@ class PatientDAO
         return self::$instance;
     }
 
-    public static function insert(Patient $p)
+    public static function insert(Patient $p): void
     {
         //TODO : SQL Injection protection please
         $med = $p->getMedecinRefferent();
@@ -32,14 +32,14 @@ class PatientDAO
         self::$db->exec($sql);
     }
 
-    public static function update(Patient $p)
+    public static function update(Patient $p): void
     {
         $med = $p->getMedecinRefferent();
         $sql = "UPDATE Patient SET Num_Secu = '".$p->getNumeroDeSecu()."', Adresse = '".$p->getAdresse()."', DateNaissance = '".$p->getDateDeNaisance()->format('Y-m-d')."', LieuDeNaissance = '".$p->getLieuDeNaissance()."', Id_Personne_Id_medeciRef = ".$med->getIdPersonne()." WHERE Id_Personne = ".$p->getIdPersonne().";";
         self::$db->exec($sql);
     }
 
-    public static function delete(int $id_personne)
+    public static function delete(int $id_personne): void
     {
         $sql = "DELETE FROM Patient WHERE Id_Personne = ".$id_personne.";";
         self::$db->exec($sql);
