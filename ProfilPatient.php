@@ -21,7 +21,13 @@
             $idPatient = $_GET['id_patient'];
             $idPatient = intval($idPatient);
             //$personne = $personneServ->selectById($_POST['id_patient']);
-            $patient = $patientServ->getById($idPatient);      
+            if($patientServ->isSet($idPatient)){
+                $patient = $patientServ->getById($idPatient);
+            }
+            else{
+                header('Location: ./404.php');
+            }
+           
 
             customPageHeader('Profil de '.$patient->getNom().' '.$patient->getPrenom());
         }
