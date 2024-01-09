@@ -25,6 +25,7 @@
             //$personne = $personneServ->selectById($_POST['id_patient']);
             if($MedServ->isSet($idMed)){
                 $Med = $MedServ->getById($idMed);
+                $Med->setIdPersonne($idMed);
             }
             else{
                 header('Location: ./404.php');
@@ -141,6 +142,43 @@
 
                 
             </div>
+
+       
+                <div class=" container fixed border border-primary rounded m-3 p-2 overflow-auto" style="height: 500px;">
+                    <h4>Liste des Patients</h4>
+                    
+                    <?php
+                        $patientServ = new service\PatientService();
+                        $listePatient = $patientServ->getAll();
+                        $listePatient = $patientServ->getByMedecin($Med);
+                        //var_dump($listePatient);
+                        foreach ($listePatient as $patient) {
+                            
+                            echo "<div class=' col-6 m-1 p-3 rounded' style='background-color: white;'>";
+                                echo "<div class='row'>";
+                                    echo "<div class='col-2'>";
+                                        echo "<img src='./assets/patient.png' alt='' class='rounded-circle img-thumbnail' style='height: 70px;'>";
+                                    echo "</div>";
+                                    echo "<div class='col-10'>";
+                                        echo "<h5 class='mt-2'>".$patient->getNom()." ".$patient->getPrenom()."</h5>";
+                                        echo "<p class='mt-2'>Né le ".$patient->getDateDeNaisance()->format('Y-m-d')."</p>";
+                                        echo "<p class='mt-2'>Adresse : ".$patient->getAdresse()."</p>";
+                                        echo "<p class='mt-2'>Numéro de sécurité sociale : ".$patient->getNumeroDeSecu()."</p>";
+                                        
+                                        echo "<form action='./ProfilPatient.php' method='GET'>";
+                                        echo "<input type='hidden' name='id_patient' value='" . $patient->getIdPersonne() . "'>";
+                                        echo "<button type='submit' class='btn btn-primary p-2' >Voir le profil</button>";
+                                        echo "</form>";
+                                    echo "</div>";
+                                echo "</div>";
+                            echo "</div>";
+                        }
+                    ?>
+                        
+
+                    </div>
+                </div>
+
         </div>
     </div>
 </html>

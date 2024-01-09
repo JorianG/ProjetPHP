@@ -61,7 +61,7 @@ class PatientDAO
 
     public static function selectAllByMedecin(int $id_medecin): array|false
     {
-        $sql = "SELECT * FROM Patient WHERE Id_Personne_Id_medecinRef = ".$id_medecin.";";
+        $sql = "SELECT * FROM Patient WHERE Id_Personne_Id_medeciRef = ".$id_medecin.";";
         $result =  self::$db->query($sql);
         return $result->fetchAll();
     }
