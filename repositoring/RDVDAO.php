@@ -84,4 +84,11 @@ class RDVDAO
         $result =  self::$db->query($sql);
         return $result->fetchAll();
     }
+
+    public static function selectAllSortedByDate(): array|false
+    {
+        $sql = "SELECT * FROM RDV ORDER BY DateHeure desc;";
+        $result =  self::$db->query($sql);
+        return $result->fetchAll();
+    }
 }

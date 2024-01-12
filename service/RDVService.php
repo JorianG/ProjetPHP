@@ -5,6 +5,7 @@ namespace service;
 use class\Medecin;
 use class\Patient;
 use class\RDV;
+use DateTime;
 use repositoring\RDVDAO;
 
 include_once $_SERVER['DOCUMENT_ROOT']."/ProjetPHP/class/RDV.php";
@@ -58,6 +59,11 @@ class RDVService
     public function selectAllByMedecin(Medecin $medecin): array
     {
         return $this->RDVDAO->selectAllByMedecin($medecin->getIdPersonne());
+    }
+
+    public function selectAllSortedByDate(DateTime $date): array
+    {
+        return $this->RDVDAO->selectAllSortedByDate($date);
     }
 
 
