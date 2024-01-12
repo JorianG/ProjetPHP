@@ -35,7 +35,7 @@ require 'ConnexionDB.php';
             Adresse VARCHAR(150) NOT NULL,
             DateNaissance DATE NOT NULL,
             LieuDeNaissance VARCHAR(150) NOT NULL,
-            Id_Personne_Id_medeciRef INT NOT NULL,
+            Id_Personne_Id_medeciRef INT ,
             PRIMARY KEY(Id_Personne),
             FOREIGN KEY(Id_Personne) REFERENCES Personne(Id_Personne),
             FOREIGN KEY(Id_Personne_Id_medeciRef) REFERENCES Medecin(Id_Personne)
