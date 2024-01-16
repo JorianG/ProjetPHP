@@ -47,21 +47,21 @@
         </div>
         <div class="row">
             <div class="form-group col-4 mb-2">
-                <label class="col-sm-4 col-form-label-sm" for="heure">Heure :</label>
-                <div class="col-sm-12">
-                    <input class="form-control form-control-sm" type="time" name="heure" id="" required>
-                </div>
-            </div>
-            <div class="form-group col-4 mb-2">
                 <label class="col-sm-4 col-form-label-sm" for="date">Date :</label>
                 <div class="col-sm-12">
                     <input class="form-control form-control-sm" type="date" name="date" id="" required>
                 </div>
             </div>
             <div class="form-group col-4 mb-2">
-                <label class="col-sm-4 col-form-label-sm" for="duree">Durée :</label>
+                <label class="col-sm-4 col-form-label-sm" for="heure">Heure :</label>
                 <div class="col-sm-12">
-                    <input class="form-control form-control-sm" type="time" name="duree" id="" required> <!-- TODO limiter à 3h -->
+                    <input class="form-control form-control-sm" type="time" name="heure" id="" required>
+                </div>
+            </div>
+            <div class="form-group col-4 mb-2">
+                <label class="col-sm-4 col-form-label-sm" for="duree">Durée : (en Minutes)</label>
+                <div class="col-sm-12">
+                    <input class="form-control form-control-sm" type="number" name="duree" max="120" step="5" id="" required> <!-- TODO limiter à 3h -->
                 </div>
             </div>
         </div>
