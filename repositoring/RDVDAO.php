@@ -26,6 +26,7 @@ class RDVDAO
 
     public static function insert(RDV $r): void
     {
+
         //TODO : SQL Injection protection please
         $sql = "INSERT INTO RDV (
                  Id_Personne_Id_Patient, 
@@ -62,6 +63,13 @@ class RDVDAO
         $sql = "SELECT * FROM RDV WHERE Id_RDV = ".$id_RDV.";";
         $result =  self::$db->query($sql);
         return $result->fetch();
+    }
+
+    public static function isSet(int $id_rdv): bool
+    {
+        $sql = "SELECT * FROM RDV WHERE Id_RDV = ".$id_rdv.";"; // TODO try catch
+        $result =  self::$db->query($sql);
+        return $result->fetch() != null;
     }
 
     public static function selectAll(): array|false

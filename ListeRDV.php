@@ -7,6 +7,10 @@
     if (function_exists('customPageHeader')) {
         customPageHeader('Liste des Rendez-vous');
     }
+
+    if (isset($_POST["id_med"])) {
+        $table = $_POST["id_med"];
+    }
     ?>
 <div class=" container-fluid container  " style="margin-top: 10px;">
 <!-- formulaire d'ajout de RDV -->
@@ -55,13 +59,13 @@
             <div class="form-group col-4 mb-2">
                 <label class="col-sm-4 col-form-label-sm" for="heure">Heure :</label>
                 <div class="col-sm-12">
-                    <input class="form-control form-control-sm" type="time" name="heure" id="" required>
+                    <input class="form-control form-control-sm" type="time" min='8:00' max='18:00' name="heure" id="" required>
                 </div>
             </div>
             <div class="form-group col-4 mb-2">
                 <label class="col-sm-4 col-form-label-sm" for="duree">Durée : (en Minutes)</label>
                 <div class="col-sm-12">
-                    <input class="form-control form-control-sm" type="number" name="duree" max="120" step="5" id="" required> <!-- TODO limiter à 3h -->
+                    <input class="form-control form-control-sm" type="number" name="duree" min='0' max='120' step='5' pattern='[0-9]+' id="" required>
                 </div>
             </div>
         </div>
@@ -69,7 +73,40 @@
     </form>
 
     <hr class="hr hr-blurry" />
-    <br/>
+
+
+    <div class="row">
+        <form class="col-12" action="./ListeRDV.php?>." method="post">
+            <div class="row mb-2">
+                <label class="col-sm-2 col-form-label" for="date">Filtre par Médecin :</label>
+            </div>
+            <div class="row">
+                <div class="col-2">
+                    <?php
+                    echo "<select class='form-control form-control-sm' name='id_med' id=''>";
+                        if ($table != null) {
+                            $serviceMedecin = new \service\MedecinService();
+                            $medecin = $serviceMedecin->getById($table);
+                            $medecin->setIdPersonne($table);
+                            echo '<option value="'.$medecin->getIdPersonne().'"> ['.$medecin->getSpecialite().'] '.$medecin->getNom().' '.$medecin->getPrenom().'</option>';
+                            echo "<option value=''>Aucun</option>";
+                        } else {
+                            echo "<option value=''>Aucun</option>";
+                        }
+                    $service = new \service\MedecinService();
+                    $result = $service->getAll();
+                    foreach ($result as $row) {
+                        echo '<option value="'.$row['Id_Personne'].'"> ['.$row['Specialite'].'] '.$row['Nom'].' '.$row['Prenom'].'</option>';
+                    }
+                    echo "</select>"
+                    ?>
+                </div>
+                <div class="col-9"></div>
+                <input class="col-1 btn btn-primary" type="submit" name="submit" value="Filtrer">
+            </div>
+
+        </form>
+    </div>
 
     <table class="table table-condensed table-hover">
         <thead>
@@ -78,22 +115,31 @@
                 <th scope="col">Patient</th>
                 <th scope="col">Date</th>
                 <th scope="col">Durée</th>
-                <th scope="col"></th> <!-- TODO bouton modifier -->
-                <th scope="col"></th> <!-- TODO bouton supprimer -->
+                <th scope="col"></th>
+                <th scope="col"></th>
             </tr>
         </thead>
         <tbody>
 
         <?php
-            $serviceRDV = new \service\RDVService();
-            $result = $serviceRDV->selectAll();
+            echo $table;
+            if ($table != null) {
+                $serviceRDV = new \service\RDVService();
+                $serviceMedecin = new \service\MedecinService();
+                $medecin = $serviceMedecin->getById($table);
+                $medecin->setIdPersonne($table);
+                $result = $serviceRDV->selectAllByMedecin($medecin);
+            } else {
+                $serviceRDV = new \service\RDVService();
+                $result = $serviceRDV->selectAll();
+            }
 
             function arrayToTable($data){
                 $servicePatient = new \service\PatientService();
                 $serviceMedecin = new \service\MedecinService();
                 foreach ($data as $row) {
-                    $m = \class\Medecin::newFromRow($serviceMedecin->getById($row['Id_Personne_id_medecin']));
-                    $p = \class\Patient::newFromRow($servicePatient->getById($row['Id_Personne_Id_Patient']));
+                    $m = $serviceMedecin->getById($row['Id_Personne_id_medecin']);
+                    $p = $servicePatient->getById($row['Id_Personne_Id_Patient']);
                     $html = '';
                     $html .= '<tr>';
 
@@ -103,19 +149,19 @@
                     $html .= '<td >'.$row['DureeEnM'].'</td>';
                     $html .= '
                         <td >
-                            <form action="./RDV" method="get"> <!-- TODO -->
-                                <input type="hidden" name="id_rdv"  value="'.$row['Id_RDV'].'"></input>
+                            <form action="./RDV.php" method="get">
+                                <input type="hidden" name="id_rdv"  value="'.$row['Id_RDV'].'"/>
                                 <button class="btn btn-primary p-2" type="submit">
-                                    <i class="bi bi-person-bounding-box"></i> <!-- TODO -->
+                                    <i class="bi bi-person-bounding-box"></i> 
                                 </button>
                             </form>
                         </td>';
                     $html .= '
                         <td >
-                            <form action="./GestionRDV/SupprimerRDV.php" method="post"> <!-- TODO -->
-                                <input type="hidden" name="id_rdv"  value="'.$row['Id_RDV'].'"></input>
+                            <form action="./GestionRDV/SupprimerRDV.php" method="post">
+                                <input type="hidden" name="id_rdv"  value="'.$row['Id_RDV'].'"/>
                                 <button class="btn secondary p-2" type="submit">
-                                    <i class="bi bi-trash3"></i> <!-- TODO -->
+                                    <i class="bi bi-trash3"></i> 
                                 </button>
                             </form>
                         </td>';
@@ -123,7 +169,6 @@
                     echo $html;
                 }
             }
-
             arrayToTable($result);
         ?>
 
