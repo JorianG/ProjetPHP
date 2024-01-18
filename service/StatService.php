@@ -2,7 +2,6 @@
 
 namespace service;
 
-include './/header.php';
 include_once $_SERVER['DOCUMENT_ROOT']."/ProjetPHP/class/Patient.php";
 include_once $_SERVER['DOCUMENT_ROOT']."/ProjetPHP/class/Personne.php";
 include_once $_SERVER['DOCUMENT_ROOT']."/ProjetPHP/class/Civilite.php";
@@ -15,12 +14,15 @@ class StatService {
 
     private PatientService $patientServ;
 
-    private array $tabPatient;
+    private array $tabPatient = [];
 
     function __construct()
     {
         $this->patientServ = new PatientService();
-        $this->tabPatient = $this->patientServ->getAll();
+        $result = $this->patientServ->getAll();
+        foreach($result as $row){
+            $this->tabPatient[] = (Patient::newFromRow($row));
+        }
     }
 
     function getNbPatient() {
@@ -38,22 +40,41 @@ class StatService {
     }
     
 
+    
     function getNbPatientBetweenAge(int $ageDebut, int $ageFin) {
         $nb = 0;
+        
         foreach ($this->tabPatient as $patient) {
-            echo $patient->getNom();
-            // $date = $patient->getDateDeNaisance();
-            // $now = new DateTime();
-            // $interval = $date->diff($now);
-            // $age = $interval->format('%y');
-            // if ($age >= $ageDebut && $age <= $ageFin) {
-            //     $nb++;
-            // }
+            
+            $date = $patient->getDateDeNaisance();
+            if ($date instanceof DateTime) {
+                $age = $date->diff(new DateTime())->y;
+                if ($age >= $ageDebut && $age <= $ageFin) {
+                    $nb++;
+                }
+            }
         }
         return $nb;
+    }
+
+    function getNbPatientBySexeBetweenAge(Civilite $sexe, int $ageDebut, int $ageFin) {
+        $nb = 0;
+        foreach ($this->tabPatient as $patient) {
+            $date = $patient->getDateDeNaisance();
+            if ($date instanceof DateTime) {
+                $age = $date->diff(new DateTime())->y;
+                if ($age >= $ageDebut && $age <= $ageFin && $patient->getCivilite() == $sexe) {
+                    $nb++;
+                }
+            }
+        }
+        return $nb;
+    }
+
+    
 
         
-    }
+    
     
 
     

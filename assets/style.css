@@ -3,9 +3,13 @@ body{
     --bs-primary: #04B1D9 !important;
     --bs-dark: #048ABF !important;
     --light-bg : #CBE6F8 !important;
+    --dark-bg : #CBE6F8 !important;
     background-color: var(--light-bg) !important;
 }
 
+.bgr-dark{
+    background-color: #048abf38;
+}
 
 .navbar{
     height: 80px ;
