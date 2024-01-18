@@ -6,8 +6,10 @@ include_once $_SERVER['DOCUMENT_ROOT']."/ProjetPHP/class/Patient.php";
 include_once $_SERVER['DOCUMENT_ROOT']."/ProjetPHP/class/Personne.php";
 include_once $_SERVER['DOCUMENT_ROOT']."/ProjetPHP/class/Civilite.php";
 include_once $_SERVER['DOCUMENT_ROOT']."/ProjetPHP/service/PatientService.php";
+include_once $_SERVER['DOCUMENT_ROOT']."/ProjetPHP/service/RDVService.php";
 
 use class\Civilite;
+use class\Medecin;
 use class\Patient;
 use DateTime;
 class StatService {
@@ -70,6 +72,20 @@ class StatService {
         }
         return $nb;
     }
+
+    function getTotaHeureMedecin(Medecin $m): int {
+        $nb = 0;
+        $service = new RDVService();
+        foreach ($service->selectAllByMedecin($m) as $rdv) {
+            $nb += $rdv->getDuree();
+        }
+        return $nb;
+    }
+
+    function minuteToHeure(int $nbMinute): int {
+        return $nbMinute / 60;
+    }
+
 
     
 
