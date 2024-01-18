@@ -4,9 +4,9 @@ use class\Medecin;
 use class\Patient;
 use class\RDV;
 
-require 'ConnexionDB.php';
+require '../PDO.php';
     function creerTables() {
-        $db = connexion();
+        $db = getInstance();
 
     
         $sql = "CREATE TABLE Personne (

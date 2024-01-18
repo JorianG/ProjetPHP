@@ -4,6 +4,8 @@ namespace class;
 
 use DateTime;
 use repositoring\RDVDAO;
+use service\MedecinService;
+use service\PatientService;
 
 class RDV
 {
@@ -24,10 +26,18 @@ class RDV
 
     public static function newFromRow(mixed $rows): RDV
     {
+        $medecinService = new MedecinService();
+        $patientService = new PatientService();
+        $dateHeure = new DateTime($rows['DateHeure']);
+        $patient = $patientService->getById($rows['Id_Personne_Id_Patient']);
+        $patient->setIdPersonne($rows['Id_Personne_Id_Patient']);
+        $medecin = $medecinService->getById($rows['Id_Personne_id_medecin']);
+        $medecin->setIdPersonne($rows['Id_Personne_id_medecin']);
+
         $rdv = new RDV(
-            $rows['Id_Personne_Id_Patient'],
-            $rows['Id_Personne_id_medecin'],
-            $rows['DateHeure'],
+            $patient,
+            $medecin,
+            $dateHeure,
             $rows['DureeEnM']);
         $rdv->setId($rows['Id_RDV']);
         return $rdv;

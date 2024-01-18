@@ -41,6 +41,11 @@ class RDVService
         $this->RDVDAO->delete($id_RDV);
     }
 
+    public function isSet(int $id_RDV): bool
+    {
+        return $this->RDVDAO->isSet($id_RDV);
+    }
+
     public function selectAll(): false|array // TODO refacto newFromArray
     {
         return $this->RDVDAO->selectAll();
@@ -48,7 +53,7 @@ class RDVService
 
     public function getById(int $id): RDV
     {
-        return RDV::newFromRow($this->RDVDAO->getById($id));
+        return RDV::newFromRow($this->RDVDAO->selectById($id));
     }
 
     public function selectAllByPatientId(Patient $patient): array
