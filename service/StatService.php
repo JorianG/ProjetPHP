@@ -5,6 +5,8 @@ namespace service;
 include_once $_SERVER['DOCUMENT_ROOT']."/ProjetPHP/class/Patient.php";
 include_once $_SERVER['DOCUMENT_ROOT']."/ProjetPHP/class/Personne.php";
 include_once $_SERVER['DOCUMENT_ROOT']."/ProjetPHP/class/Civilite.php";
+include_once $_SERVER['DOCUMENT_ROOT']."/ProjetPHP/class/Medecin.php";
+include_once $_SERVER['DOCUMENT_ROOT']."/ProjetPHP/class/RDV.php";
 include_once $_SERVER['DOCUMENT_ROOT']."/ProjetPHP/service/PatientService.php";
 include_once $_SERVER['DOCUMENT_ROOT']."/ProjetPHP/service/RDVService.php";
 
@@ -73,16 +75,17 @@ class StatService {
         return $nb;
     }
 
-    function getTotaHeureMedecin(Medecin $m): int {
+    function getNbHeuresConsultationByMedecin(Medecin $m): int {
         $nb = 0;
         $service = new RDVService();
-        foreach ($service->selectAllByMedecin($m) as $rdv) {
-            $nb += $rdv->getDuree();
+        foreach ($service->selectAllByMedecin($m) as $row) {
+            $rdv = \class\RDV::newFromRow($row);
+            $nb += $rdv->getDureeEnMinute();
         }
         return $nb;
     }
 
-    function minuteToHeure(int $nbMinute): int {
+    function minuteToHeure(int $nbMinute): float {
         return $nbMinute / 60;
     }
 
