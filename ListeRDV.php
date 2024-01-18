@@ -10,6 +10,8 @@
 
     if (isset($_POST["id_med"])) {
         $table = $_POST["id_med"];
+    }else{
+        $table = null;
     }
     ?>
 <div class=" container-fluid container  " style="margin-top: 10px;">
@@ -122,7 +124,7 @@
         <tbody>
 
         <?php
-            echo $table;
+            
             if ($table != null) {
                 $serviceRDV = new \service\RDVService();
                 $serviceMedecin = new \service\MedecinService();
