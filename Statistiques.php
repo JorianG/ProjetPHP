@@ -102,7 +102,7 @@ use class\Medecin;
     
     </div>
 
-    <div class="container mt-4 rounded" style="background-color: #048abf38 !important;">
+    <div class="container mt-4 rounded" style="background-color: #9FB2B7 !important;">
         <div class="row p-2">
         <h1 class="title-2 m-1">Répartiton des heures de consultations</h1>
             <div class="col-6">

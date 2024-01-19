@@ -3,6 +3,7 @@
 namespace repositoring;
 
 use class\Compte;
+use PDO;
 
 class CompteDAO
 {
