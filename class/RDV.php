@@ -135,9 +135,9 @@ class RDV
         $duree2 = $RDV->getDureeEnMinute();
 
         $dateInterval = new \DateInterval('PT' . $duree1 . 'M');
-        $dateFin1 = $dateDebut1.add($dateInterval);
+        $dateFin1 = $dateDebut1->add($dateInterval);
         $dateInterval1 = new \DateInterval('PT' . $duree2 . 'M');
-        $dateFin2 = $dateDebut2.add($dateInterval1);
+        $dateFin2 = $dateDebut2->add($dateInterval1);
 
         return $dateDebut1 > $dateFin2 || $dateDebut2 > $dateFin1;
     }

@@ -26,11 +26,17 @@ class RDVService
         $this->medecinService = new MedecinService();
     }
 
+    /**
+     * @throws \Exception
+     */
     public function insert(RDV $r): void
     {
         $this->RDVDAO->insert($r);
     }
 
+    /**
+     * @throws \Exception
+     */
     public function update(RDV $r): void
     {
         $this->RDVDAO->update($r);

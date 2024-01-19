@@ -35,9 +35,14 @@ if (isset($_POST["submit"])) {
         $rdvService = new service\RDVService();
         $rdv = new \class\RDV($patient, $medecin, $dateheure, $duree);
         $rdv->setId(intval($_POST['id_rdv']));
-        $rdvService->update($rdv);
-
-        header('Location: http://localhost/ProjetPHP/ListeRDV.php');
+        try {
+            $rdvService->update($rdv);
+        } catch (Exception $e) {
+            $message="Le patient ou le medecin a déjà un rendez-vous le ". $rdv->getDateHeure()->format('Y-m-d H:i:s');
+            echo '<script type="text/javascript">window.alert("'.$message.'");</script>';
+            sleep(5);
+            header('Location: http://localhost/ProjetPHP/ListeRDV.php');
+        }
     }
 
     modRDV();

@@ -6,6 +6,9 @@ include_once $_SERVER['DOCUMENT_ROOT']."/ProjetPHP/service/PatientService.php";
 
 if (isset($_POST['submit'])) {
 
+    /**
+     * @throws Exception
+     */
     function addRDV(){
         // Retrieve the form data
         $med = $_POST['med'];
@@ -33,9 +36,16 @@ if (isset($_POST['submit'])) {
         $rdvToAdd = new class\RDV($patient, $medecin, $dateheure, $duree);
         //echo $rdvToAdd->getMedecin()->getIdPersonne();
         $rdvService = new service\RDVService();
-        $rdvService->insert($rdvToAdd);
+        try {
+            $rdvService->insert($rdvToAdd);
+            header('Location: http://localhost/ProjetPHP/ListeRDV.php');
+        } catch (Exception $e) {
+            $message="Le patient ou le medecin a déjà un rendez-vous le ". $rdvToAdd->getDateHeure()->format('Y-m-d H:i:s');
+            echo '<script type="text/javascript">window.alert("'.$message.'");</script>';
+            sleep(5);
+            header('Location: http://localhost/ProjetPHP/ListeRDV.php');
+        }
 
-        header('Location: http://localhost/ProjetPHP/ListeRDV.php');
     }
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
