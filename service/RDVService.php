@@ -6,6 +6,7 @@ use class\Medecin;
 use class\Patient;
 use class\RDV;
 use DateTime;
+use Exception;
 use repositoring\RDVDAO;
 
 include_once $_SERVER['DOCUMENT_ROOT']."/ProjetPHP/class/RDV.php";
@@ -27,7 +28,7 @@ class RDVService
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     public function insert(RDV $r): void
     {
@@ -35,7 +36,7 @@ class RDVService
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     public function update(RDV $r): void
     {

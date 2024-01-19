@@ -40,10 +40,7 @@ if (isset($_POST['submit'])) {
             $rdvService->insert($rdvToAdd);
             header('Location: http://localhost/ProjetPHP/ListeRDV.php');
         } catch (Exception $e) {
-            $message="Le patient ou le medecin a déjà un rendez-vous le ". $rdvToAdd->getDateHeure()->format('Y-m-d H:i:s');
-            echo '<script type="text/javascript">window.alert("'.$message.'");</script>';
-            sleep(5);
-            header('Location: http://localhost/ProjetPHP/ListeRDV.php');
+            header('Location: http://localhost/ProjetPHP/ErrorMedecinPatientOccuper.php');
         }
 
     }

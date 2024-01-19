@@ -6,6 +6,7 @@ use class\RDV;
 
 use DateInterval;
 use DateTime;
+use Exception;
 use PDO;
 include_once $_SERVER['DOCUMENT_ROOT']."/ProjetPHP/class/RDV.php";
 include_once $_SERVER['DOCUMENT_ROOT']."/ProjetPHP/PDO.php";
@@ -26,12 +27,15 @@ class RDVDAO
         return self::$instance;
     }
 
+    /**
+     * @throws Exception
+     */
     public static function insert(RDV $r): void
     {
         if (!self::patientDispo($r, $r->getPatient()->getIdPersonne())) {
-            throw new \Exception("Patient non disponible");
-        } elseif (!self::medecinDispo($r, $r->getMedecin()->getIdPersonne())) {
-            throw new \Exception("Medecin non disponible");
+            throw new Exception("Patient non disponible");
+        } else if (!self::medecinDispo($r, $r->getMedecin()->getIdPersonne())) {
+            throw new Exception("Medecin non disponible");
         }
         //TODO : SQL Injection protection please
         $sql = "INSERT INTO RDV (
@@ -49,9 +53,11 @@ class RDVDAO
     public static function update(RDV $r): void
     {
         if (!self::patientDispo($r, $r->getPatient()->getIdPersonne())) {
-            throw new \Exception("Patient non disponible");
+            header('Location: http://localhost/ProjetPHP/ErrorMedecinPatientOccuper.php');
+            throw new Exception("Patient non disponible");
         } elseif (!self::medecinDispo($r, $r->getMedecin()->getIdPersonne())) {
-            throw new \Exception("Medecin non disponible");
+            header('Location: http://localhost/ProjetPHP/ErrorMedecinPatientOccuper.php');
+            throw new Exception("Medecin non disponible");
         }
         // TODO : SQL Injection protection please
         $sql = "UPDATE RDV SET 
