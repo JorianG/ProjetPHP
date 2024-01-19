@@ -4,6 +4,8 @@ namespace repositoring;
 
 use class\RDV;
 
+use DateInterval;
+use DateTime;
 use PDO;
 include_once $_SERVER['DOCUMENT_ROOT']."/ProjetPHP/class/RDV.php";
 include_once $_SERVER['DOCUMENT_ROOT']."/ProjetPHP/PDO.php";
@@ -67,7 +69,7 @@ class RDVDAO
 
     public static function isSet(int $id_rdv): bool
     {
-        $sql = "SELECT * FROM RDV WHERE Id_RDV = ".$id_rdv.";"; // TODO try catch
+        $sql = "SELECT * FROM RDV WHERE Id_RDV = ".$id_rdv.";";
         $result =  self::$db->query($sql);
         return $result->fetch() != null;
     }
@@ -99,4 +101,32 @@ class RDVDAO
         $result =  self::$db->query($sql);
         return $result->fetchAll();
     }
-}
+
+    /**
+     * @throws \Exception if the patient is not available
+     */
+    public static function patientDispo($rdv, $id_patient): bool
+    {
+        $sql = "SELECT * FROM RDV WHERE Id_Personne_Id_Patient = ".$id_patient.";";
+        $result =  self::$db->query($sql);
+        $r = $result->fetchAll();
+        foreach ($r as $row) {
+            $rdv2 = RDV::newFromRow($row);
+            $dateDebut1 = $rdv->getDateHeure();
+            $dateFin1 = $rdv->getDateHeure()->add(new DateInterval('PT'.$rdv->getDureeEnMinute().'M'));
+            $dateDebut2 = $rdv2->getDateHeure();
+            $dateFin2 = $rdv2->getDateHeure()->add(new DateInterval('PT'.$rdv2->getDureeEnMinute().'M'));
+            $dateDebut1->isBetween($dateDebut2, $dateFin2);
+            if ($rdv->getDateHeure() == $rdv2->getDateHeure()){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public static function medecinDispo($id_medecin): bool
+    {
+        $sql = "SELECT * FROM RDV WHERE Id_Personne_id_medecin = ".$id_medecin.";";
+        $result =  self::$db->query($sql);
+        return $result->fetchAll();
+    }

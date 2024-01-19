@@ -125,4 +125,9 @@ class RDV
     {
         return $this->idRDV;
     }
+
+    public function is(RDV $RDV): bool
+    {
+
+    }
 }

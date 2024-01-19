@@ -23,7 +23,7 @@ class CompteDAO
     public static function insert(Compte $c): void
     {
         //TODO : SQL Injection protection please
-        $sql = "INSERT INTO Compte (Login, Mdp) VALUES ('".$c->getLogin()."', '".$c->getMdp()."', '".$c->getIdPersonne()."');";
+        $sql = "INSERT INTO Compte (login, password) VALUES ('".$c->getLogin()."', '".$c->getMdp()."', '".$c->getIdPersonne()."');";
         self::$db->exec($sql);
     }
 
@@ -31,7 +31,7 @@ class CompteDAO
     public static function accessGranted(Compte $c): bool
     {
         //TODO : SQL Injection protection please
-        $sql = "Select * from COMPTE WHERE Id_Compte = ".$c->getLogin()." AND ".$c->getMdp().";";
+        $sql = "Select * from COMPTE WHERE login = '".$c->getLogin()."' AND password = '".$c->getMdp()."';";
         $result = self::$db->exec($sql);
         if (!$result->fetchAll()) {
             return false;
