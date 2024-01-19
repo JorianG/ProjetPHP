@@ -112,14 +112,7 @@ class RDVDAO
         $r = $result->fetchAll();
         foreach ($r as $row) {
             $rdv2 = RDV::newFromRow($row);
-            $dateDebut1 = $rdv->getDateHeure();
-            $dateFin1 = $rdv->getDateHeure()->add(new DateInterval('PT'.$rdv->getDureeEnMinute().'M'));
-            $dateDebut2 = $rdv2->getDateHeure();
-            $dateFin2 = $rdv2->getDateHeure()->add(new DateInterval('PT'.$rdv2->getDureeEnMinute().'M'));
-            $dateDebut1->isBetween($dateDebut2, $dateFin2);
-            if ($rdv->getDateHeure() == $rdv2->getDateHeure()){
-                return false;
-            }
+            
         }
         return true;
     }

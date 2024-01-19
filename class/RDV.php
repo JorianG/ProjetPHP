@@ -6,6 +6,7 @@ use DateTime;
 use repositoring\RDVDAO;
 use service\MedecinService;
 use service\PatientService;
+use function Sodium\add;
 
 class RDV
 {
@@ -126,8 +127,18 @@ class RDV
         return $this->idRDV;
     }
 
-    public function is(RDV $RDV): bool
+    public function isSupperpose(RDV $RDV): bool
     {
+        $dateDebut1 = $this->getDateHeure();
+        $dateDebut2 = $RDV->getDateHeure();
+        $duree1 = $this->getDureeEnMinute();
+        $duree2 = $RDV->getDureeEnMinute();
 
+        $dateInterval = new \DateInterval('PT' . $duree1 . 'M');
+        $dateFin1 = $dateDebut1.add($dateInterval);
+        $dateInterval1 = new \DateInterval('PT' . $duree2 . 'M');
+        $dateFin2 = $dateDebut2.add($dateInterval1);
+
+        return $dateDebut1 > $dateFin2 || $dateDebut2 > $dateFin1;
     }
 }
