@@ -139,6 +139,28 @@ class RDV
         $dateInterval1 = new \DateInterval('PT' . $duree2 . 'M');
         $dateFin2 = $dateDebut2->add($dateInterval1);
 
-        return $dateDebut1 > $dateFin2 || $dateDebut2 > $dateFin1;
+        // vérifie que les dates ne se superposent pas
+        if ($dateDebut1 < $dateDebut2 && $dateFin1 > $dateDebut2) {
+            return true;
+        }
+        if ($dateDebut1 > $dateDebut2 && $dateDebut1 < $dateFin2) {
+            return true;
+        }
+
+        if ($dateFin1 < $dateFin2 && $dateFin1 > $dateDebut2) {
+            return true;
+        }
+        if ($dateFin1 > $dateFin2 && $dateDebut1 < $dateFin2) {
+            return true;
+        }
+
+        if ($dateDebut1 < $dateDebut2 && $dateFin1 > $dateDebut2) {
+            return true;
+        }
+        if ($dateDebut1 > $dateDebut2 && $dateDebut1 < $dateFin2) {
+            return true;
+        }
+
+        return false;
     }
 }

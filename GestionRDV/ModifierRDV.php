@@ -39,6 +39,7 @@ if (isset($_POST["submit"])) {
             $rdvService->update($rdv);
             header('Location: http://localhost/ProjetPHP/ListeRDV.php');
         } catch (Exception $exception) {
+            header('Location: http://localhost/ProjetPHP/ErrorMedecinPatientOccuper.php');
         }
     }
 
